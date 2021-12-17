@@ -1,47 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform : MonoBehaviour
-{
-    public Vector3 dst;
-    public Vector3 src;
+public class Platform : MonoBehaviour {
+    [SerializeField] private float dst;
+    private float src;
 
-    float speed = 2;
+    private const float distance = 20;
+    private const float speed = 2;
 
-    bool forward = true;
+    private bool forward = true;
 
     public GameObject player;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        src = transform.position;
+    private void Start() {
+        src = transform.position.z;
 
-        dst = src + new Vector3(0,0,10);
+        dst = src + distance;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        int dir = 1;
-        if (!forward) dir = -1;
+    private void Update() {
+        transform.position += new Vector3(0,0,(forward ? 1 : -1) * speed) * Time.deltaTime;
 
-        transform.position += new Vector3(0,0,dir * speed) * Time.deltaTime;
-
-        if (forward) {
-            if (transform.position.z > dst.z) {
-                transform.position = dst;
-                forward = false;
-            }
+        if (transform.position.z >= dst) {
+            transform.position = new Vector3(0, 0, dst);
+            forward = false;
         }
-        else { 
-            if (transform.position.z < src.z) {
-                transform.position = src;
-                forward = true;
-            }
+        else if (transform.position.z <= src) {
+            transform.position = new Vector3(0, 0, src);
+            forward = true;
         }
 
-        if (player) player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+        player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
     }
 }

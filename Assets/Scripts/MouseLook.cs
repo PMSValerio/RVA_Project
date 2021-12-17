@@ -1,33 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseLook : MonoBehaviour
-{
-    public Camera camera;
+public class MouseLook : MonoBehaviour {
+    [SerializeField] private float minY = -60F;
+    [SerializeField] private float maxY = 60F;
 
-    public float minX = -360F;
-    public float maxX = 360F;
-    public float minY = -60F;
-    public float maxY = 60F;
+    private Camera lookCamera;
 
-    float speedX = 5F;
-    float speedY = 2F;
+    private const float speedX = 5F;
+    private const float speedY = 2F;
 
-    float rotX = 0F;
-    float rotY = 0F;
-    Quaternion ogRot;
+    private float rotX;
+    private float rotY;
+    private Quaternion ogRot;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Start() {
         Cursor.lockState = CursorLockMode.Locked;
         ogRot = transform.localRotation;
+        lookCamera = Camera.main;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    private void Update() {
         rotX += Input.GetAxis("Mouse X") * speedX;
         rotY += Input.GetAxis("Mouse Y") * speedY;
         
@@ -36,7 +30,6 @@ public class MouseLook : MonoBehaviour
         Quaternion xQuat = Quaternion.AngleAxis(rotX, Vector3.up);
         Quaternion yQuat = Quaternion.AngleAxis(rotY, -Vector3.right);
 
-        camera.transform.rotation = ogRot * xQuat * yQuat;
-        
+        lookCamera.transform.rotation = ogRot * xQuat * yQuat;
     }
 }
