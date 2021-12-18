@@ -5,6 +5,8 @@ using UnityEngine;
 public class Stalker : Enemy
 {
 
+    Material m_Material;
+
     private State state = State.OFF;
     private State nextState = State.DETACH;
 
@@ -29,8 +31,10 @@ public class Stalker : Enemy
     void Start()
     {
         base.Start();
+        m_Material = transform.Find("Eye").gameObject.GetComponent<Renderer>().material;
         detPos = transform.position + transform.forward;
         state = State.OFF;
+        m_Material.DisableKeyword("_EMISSION");
     }
 
     // Update is called once per frame
@@ -39,7 +43,9 @@ public class Stalker : Enemy
         switch(state) {
             case State.OFF:
                 if (Input.GetKeyDown(KeyCode.Space)) {
-                    state = State.DETACH;
+                    state = State.HOLD;
+                    nextState = State.DETACH;
+                    m_Material.EnableKeyword("_EMISSION");
                 }
             break;
             case State.DETACH:
