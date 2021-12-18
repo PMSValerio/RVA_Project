@@ -35,26 +35,29 @@ public class Tower : MonoBehaviour {
                 GameObject newDrone = Instantiate(sentinel);
 
                 float y = i;
-
+                
                 // near side face
-                float x = transform.position.x;
-                float z = transform.position.z - 1.5f;
+                float x = 0;
+                float z = -1.5f;
 
                 float face = Random.Range(0f, 1f);
                 if (face < 0.35) { // bridge side face
-                    x = transform.position.x - side * 1.5f;
-                    z = transform.position.z;
+                    x = -side * 1.5f;
+                    z = 0;
                 }
                 else if (face < 0.5) { // chasm side face
-                    x = transform.position.x - side * 1.5f;
-                    z = transform.position.z;
+                    x = -side * 1.5f;
+                    z = 0;
                 }
                 else if (face < 0.65) { // far side face
-                    x = transform.position.x;
-                    z = transform.position.z + 1.5f;
+                    x = 0;
+                    z = 1.5f;
                 }
+                Vector3 forward = new Vector3(x,y,z);
 
-                newDrone.transform.position = new Vector3(x,y,z);
+                //newDrone.transform.position = new Vector3(x,y,z);
+                newDrone.transform.position = transform.position + forward;
+                newDrone.transform.localRotation = Quaternion.LookRotation(forward,Vector3.up);
 
                 i += droneInterval;
             }

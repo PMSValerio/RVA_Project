@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponOQ : MonoBehaviour
+public class WeaponControllerOQ : MonoBehaviour
 {
 
     public GameObject[] weapons;
