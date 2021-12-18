@@ -26,4 +26,11 @@ public class PeaShooter : MonoBehaviour
             bulletObj.transform.forward = cam.transform.forward;
         }
     }
+
+    public void Manipulate(Vector3 pivot1, Quaternion rot1, Vector3 pivot2, Quaternion rot2) {
+        Debug.Log(transform.position);
+        transform.position = pivot1;
+        transform.localPosition = new Vector3(0,0,0);
+        transform.rotation = rot1;
+    }
 }
