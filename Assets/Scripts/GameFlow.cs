@@ -14,6 +14,8 @@ public class GameFlow : MonoBehaviour
     float edgeOffset = 3; // distance between each bridge end and tower spawning area
 
     float towerProb = 0.05f; // chance of spawning tower at each step
+    int towerlim = -1;
+    int towercount;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,7 @@ public class GameFlow : MonoBehaviour
             SpawnTowers();
         }
         else Debug.Log("Tower Prefab not defined");
+        towercount = 0;
     }
 
     // Update is called once per frame
@@ -31,6 +34,7 @@ public class GameFlow : MonoBehaviour
     }
 
     void SpawnTowers() {
+        if (towerlim>=0 && towercount>=towerlim) return;
         for (float xx = bridgeOffset; xx < mapDim.x; xx += towerFree.x) {
             // right side
             for (float zz = edgeOffset; zz < mapDim.y; zz += 1) {
@@ -38,7 +42,8 @@ public class GameFlow : MonoBehaviour
                     GameObject towerObj = Instantiate(tower);
                     towerObj.transform.position = new Vector3(xx,0,zz);
                     zz += towerFree.y;
-                    Debug.Log(towerObj.transform.position);
+                    towercount++;
+                    if (towerlim>=0 && towercount>=towerlim) return;
                 }
             }
             // left side
@@ -47,7 +52,8 @@ public class GameFlow : MonoBehaviour
                     GameObject towerObj = Instantiate(tower);
                     towerObj.transform.position = new Vector3(-xx,0,zz);
                     zz += towerFree.y;
-                    Debug.Log(towerObj.transform.position);
+                    towercount++;
+                    if (towerlim>=0 && towercount>=towerlim) return;
                 }
             }
         }

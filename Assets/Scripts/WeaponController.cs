@@ -21,7 +21,7 @@ public class WeaponController : MonoBehaviour
             //w.transform.parent = transform;
             weapons.Add(w);
         }
-        SwitchWeapon(1);
+        SwitchWeapon(0);
     }
 
     // Update is called once per frame

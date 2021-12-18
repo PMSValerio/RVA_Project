@@ -4,17 +4,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     private int hp;
-    private GameObject Player;
+    protected GameObject Player;
 
     // Start is called before the first frame update
-    private void Start() {
+    protected virtual void Start() {
         Player = GameObject.Find("Player");
         hp = 1;
     }
 
-    private void Update() {
-        transform.LookAt(Player.transform);
-        transform.position += transform.forward * 2 * Time.deltaTime;
+    protected virtual void Update() {
+        
     }
 
     public void Damage(int damage) {

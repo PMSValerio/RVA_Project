@@ -57,6 +57,7 @@ public class Tower : MonoBehaviour {
 
                 //newDrone.transform.position = new Vector3(x,y,z);
                 newDrone.transform.position = transform.position + forward;
+                forward = new Vector3(forward.x,0,forward.z);
                 newDrone.transform.localRotation = Quaternion.LookRotation(forward,Vector3.up);
 
                 i += droneInterval;
