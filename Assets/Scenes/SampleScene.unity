@@ -686,7 +686,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: weapons_prefab.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: weapons_prefab.Array.data[1]

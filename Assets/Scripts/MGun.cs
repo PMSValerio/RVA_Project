@@ -13,7 +13,7 @@ public class MGun : Weapon
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
+        if (action) {
             var direction = 200*transform.TransformDirection(Vector3.forward);
             RaycastHit hit;
 

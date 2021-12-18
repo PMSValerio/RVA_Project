@@ -16,7 +16,7 @@ public class Pistol : Weapon
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
+        if (action) {
             GameObject bulletObj = Instantiate(bulletPre);
             bulletObj.transform.position = transform.position + transform.forward;
             bulletObj.transform.forward = transform.forward;

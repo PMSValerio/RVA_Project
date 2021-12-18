@@ -39,12 +39,15 @@ public class WeaponController : MonoBehaviour
         Vector3 p2 = cam.transform.position + 2*cam.transform.forward + cam.transform.right*0.5f;
         Quaternion r2 = cam.transform.rotation;
 
-        weapons[current].GetComponent<Weapon>().Manipulate(p1,r1,p2,r2);
+        Weapon wep = weapons[current].GetComponent<Weapon>();
+        wep.Manipulate(p1,r1,p2,r2);
+        wep.action = Input.GetMouseButtonDown(0);
     }
 
     void SwitchWeapon(int i) {
         weapons[current].gameObject.SetActive(false);
         current = i % weapons.Count;
+        if (current<0) current*=-1;
         weapons[current].gameObject.SetActive(true);
     }
 }
