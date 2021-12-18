@@ -1,22 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
-{
+public class Enemy : MonoBehaviour {
 
-    int hp;
+    private int hp;
+    private GameObject Player;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Start() {
+        Player = GameObject.Find("Player");
         hp = 1;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update() {
+        transform.LookAt(Player.transform);
+        transform.position += transform.forward * 2 * Time.deltaTime;
     }
 
     public void Damage(int damage) {
