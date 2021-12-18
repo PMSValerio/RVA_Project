@@ -17,6 +17,7 @@ public class Stalker : Enemy
         DETACH,
         HOLD,
         ROTATE,
+        SEEK,
         STALK
     }
 
@@ -28,15 +29,23 @@ public class Stalker : Enemy
     float holdLim = 0.5f;
     float holdTimer = 0f;
 
+    Quaternion offsetRot;
+    Vector3 offsetVec;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        offsetRot = Random.rotation;
+        offsetVec = offsetRot * Vector3.forward;
+
         base.Start();
         m_Material = transform.Find("Eye").gameObject.GetComponent<Renderer>().material;
         detPos = transform.position + transform.forward;
         state = State.OFF;
         m_Material.DisableKeyword("_EMISSION");
+
+        Debug.Log(offsetVec);
     }
 
     // Update is called once per frame
@@ -61,7 +70,6 @@ public class Stalker : Enemy
                     holdLim = 0.5f;
                     nextState = State.ROTATE;
                     setting--;
-                    Debug.Log(setting);
                 }
             break;
             case State.HOLD:
@@ -81,14 +89,26 @@ public class Stalker : Enemy
                     transform.rotation = Quaternion.LookRotation(newDirection);
 
                     if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
-                        state = State.STALK;
+                        state = State.SEEK;
                     }
                 }
                 
             break;
-            case State.STALK:
-                transform.LookAt(Player.transform);
+            case State.SEEK:
+                Vector3 dst = Player.transform.position + 2 * offsetVec;
+                transform.LookAt(dst, Vector3.up);
                 transform.position += transform.forward * speed * Time.deltaTime;
+
+                if (Vector3.Distance(transform.position, dst) < 0.05f) {
+                    state = State.STALK;
+                }
+                else if (Vector3.Distance(transform.position, dst) < 3f) {
+                    transform.LookAt(Player.transform);
+                }
+            break;
+            case State.STALK:
+                transform.position = Player.transform.position + 2 * offsetVec;
+                transform.LookAt(Player.transform);
             break;
         }
         
