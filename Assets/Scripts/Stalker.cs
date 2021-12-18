@@ -5,6 +5,8 @@ using UnityEngine;
 public class Stalker : Enemy
 {
 
+    static int setting = 0;
+
     Material m_Material;
 
     private State state = State.OFF;
@@ -44,8 +46,10 @@ public class Stalker : Enemy
             case State.OFF:
                 if (Input.GetKeyDown(KeyCode.Space)) {
                     state = State.HOLD;
+                    holdLim = Random.Range(0.5f, 2f);
                     nextState = State.DETACH;
                     m_Material.EnableKeyword("_EMISSION");
+                    setting++;
                 }
             break;
             case State.DETACH:
@@ -54,26 +58,33 @@ public class Stalker : Enemy
 
                 if (Vector3.Distance(transform.position, detPos) < 0.05f) {
                     state = State.HOLD;
+                    holdLim = 0.5f;
                     nextState = State.ROTATE;
+                    setting--;
+                    Debug.Log(setting);
                 }
             break;
             case State.HOLD:
                 holdTimer += Time.deltaTime;
                 if (holdTimer >= holdLim) {
                     state = nextState;
+                    holdTimer = 0;
                 }
             break;
             case State.ROTATE:
-                Vector3 targetDirection = Player.transform.position - transform.position;
+                if (setting == 0) {
+                    Vector3 targetDirection = Player.transform.position - transform.position;
 
-                float singleStep = rotSpeed * Time.deltaTime;
-                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+                    float singleStep = rotSpeed * Time.deltaTime;
+                    Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
 
-                transform.rotation = Quaternion.LookRotation(newDirection);
+                    transform.rotation = Quaternion.LookRotation(newDirection);
 
-                if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
-                    state = State.STALK;
+                    if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
+                        state = State.STALK;
+                    }
                 }
+                
             break;
             case State.STALK:
                 transform.LookAt(Player.transform);
