@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.1678835, g: 0.2107358, b: 0.28994045, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -430,8 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a06df080378a921aca0a1efa0e1f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dst: {x: 0, y: 0, z: 0}
-  src: {x: 0, y: 0, z: 0}
+  dst: 0
   player: {fileID: 1636819342}
 --- !u!114 &941034386
 MonoBehaviour:
@@ -685,6 +684,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
+      propertyPath: weapons_prefab.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
+      propertyPath: weapons_prefab.Array.data[1]
+      value: 
+      objectReference: {fileID: 6767124374343854201, guid: ee45202d72ab53c5a895d2a598c71a21, type: 3}
     - target: {fileID: 6005905206119888801, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: m_RootOrder
       value: 3

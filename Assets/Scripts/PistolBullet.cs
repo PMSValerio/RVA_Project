@@ -35,8 +35,5 @@ public class PistolBullet : MonoBehaviour
             en.Damage(5);
             Destroy(gameObject);
         }
-        else {
-            Debug.Log("Not enemy");
-        }
     }
 }

@@ -18,19 +18,25 @@ public class WeaponController : MonoBehaviour
         cam = Camera.main;
         foreach (GameObject weapon in weapons_prefab) {
             GameObject w = Instantiate(weapon);
-            w.transform.parent = transform;
+            //w.transform.parent = transform;
             weapons.Add(w);
         }
-        SwitchWeapon(0);
-        Debug.Log(weapons.Count);
+        SwitchWeapon(1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 p1 = cam.transform.position + cam.transform.forward + new Vector3(0.2f,-0.5f,0);
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f) {
+            SwitchWeapon(current+1);
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f) {
+            SwitchWeapon(current-1);
+        }
+
+        Vector3 p1 = cam.transform.position + cam.transform.forward + cam.transform.right*0.5f + cam.transform.up*(-0.4f);
         Quaternion r1 = cam.transform.rotation;
-        Vector3 p2 = cam.transform.position + 2*cam.transform.forward + new Vector3(0.2f,-0.5f,0);
+        Vector3 p2 = cam.transform.position + 2*cam.transform.forward + cam.transform.right*0.5f;
         Quaternion r2 = cam.transform.rotation;
 
         weapons[current].GetComponent<Weapon>().Manipulate(p1,r1,p2,r2);
@@ -38,7 +44,7 @@ public class WeaponController : MonoBehaviour
 
     void SwitchWeapon(int i) {
         weapons[current].gameObject.SetActive(false);
-        current = i;
+        current = i % weapons.Count;
         weapons[current].gameObject.SetActive(true);
     }
 }
