@@ -1,31 +1,32 @@
-using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-
-    private int hp;
-    private GameObject Player;
-
-    // Start is called before the first frame update
-    private void Start() {
-        Player = GameObject.Find("Player");
-        hp = 1;
-    }
+    // Enemy attributes
+    private int hp = 1; // Enemy's health points
+    private const float speed = 2; // Enemy's speed
 
     private void Update() {
-        transform.LookAt(Player.transform);
-        transform.position += transform.forward * 2 * Time.deltaTime;
+        // Enemy should only chase the player if the player isn't moving forward
+        if (!GameManager.Instance.GetForward()) {
+            transform.LookAt(GameManager.Instance.player.transform);
+            transform.rotation *= Quaternion.Euler(0, -90, 0);
+            transform.position += transform.right * speed * Time.deltaTime;
+        }
     }
 
+    // Enemy is hit
     public void Damage(int damage) {
+        // Decrease health points
         hp -= damage;
+        // If health points are less than or equal to 0, enemy should die
         if (hp <= 0) {
             hp = 0;
             Die();
         }
     }
 
-    void Die() {
+    // Destroy itself
+    private void Die() {
         Destroy(gameObject);
     }
 }

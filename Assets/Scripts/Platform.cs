@@ -1,36 +1,37 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Platform : MonoBehaviour {
-    [SerializeField] private float dst;
-    private float src;
 
-    private const float distance = 20;
-    private const float speed = 2;
-
-    private bool forward = true;
-
-    public GameObject player;
-
-    // Start is called before the first frame update
-    private void Start() {
-        src = transform.position.z;
-
-        dst = src + distance;
+    private Vector3 sourcePosition; // Platform's source position
+    private Vector3 goalPosition; // Platform's destination position
+    private NavMeshAgent agent; // NavMesh Agent - (AI movement)
+    
+    private void Awake() {
+        sourcePosition = transform.position;
+        goalPosition = GameObject.Find("Goal").transform.position;
     }
 
-    // Update is called once per frame
+    private void Start() {
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        agent.SetDestination(goalPosition);
+        GameManager.Instance.SetForward(true);
+    }
+
     private void Update() {
-        transform.position += new Vector3(0,0,(forward ? 1 : -1) * speed) * Time.deltaTime;
-
-        if (transform.position.z >= dst) {
-            transform.position = new Vector3(0, 0, dst);
-            forward = false;
+        // Change platform's orientation according to its position
+        if (transform.position.x == goalPosition.x && transform.position.z == goalPosition.z && GameManager.Instance.GetForward()) {
+            agent.SetDestination(sourcePosition);
+            GameManager.Instance.SetForward(false);
+        } else if (transform.position.x == sourcePosition.x && transform.position.z == sourcePosition.z && !GameManager.Instance.GetForward()) {
+            Debug.Log("CHEGOU");
         }
-        else if (transform.position.z <= src) {
-            transform.position = new Vector3(0, 0, src);
-            forward = true;
-        }
+        
+        // Keep the player in the middle of the platform
+        GameManager.Instance.player.transform.position = new Vector3(transform.position.x, GameManager.Instance.player.transform.position.y, transform.position.z);
 
-        player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+        if (agent.path.corners.Length > 1 && GameManager.Instance.GetPathCheckpoints() is null) {
+            GameManager.Instance.SetPathCheckpoints(agent.path.corners);
+        }
     }
 }
