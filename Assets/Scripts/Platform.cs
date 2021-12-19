@@ -28,7 +28,7 @@ public class Platform : MonoBehaviour {
         }
         
         // Keep the player in the middle of the platform
-        GameManager.Instance.player.transform.position = new Vector3(transform.position.x, GameManager.Instance.player.transform.position.y, transform.position.z);
+        GameManager.Instance.Player.transform.position = new Vector3(transform.position.x, GameManager.Instance.Player.transform.position.y, transform.position.z);
 
         if (agent.path.corners.Length > 1 && GameManager.Instance.GetPathCheckpoints() is null) {
             GameManager.Instance.SetPathCheckpoints(agent.path.corners);

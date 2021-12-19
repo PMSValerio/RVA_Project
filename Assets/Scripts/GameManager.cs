@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
     
     // Public variables to access through other scripts
-    public GameObject player { get; private set; }
+    public GameObject Player { get; private set; }
 
     private bool forward;
     private Vector3[] pathCheckpoints;
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
         } else {
             Instance = this;
         }
-        player = GameObject.Find("Player");
+        Player = GameObject.Find("Player");
     }
     
     public void SetForward(bool value) {
@@ -34,6 +34,4 @@ public class GameManager : MonoBehaviour {
     public Vector3[] GetPathCheckpoints() {
         return pathCheckpoints;
     }
-
-    
 }

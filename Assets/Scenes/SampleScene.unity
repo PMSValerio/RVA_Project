@@ -182,9 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c291223cc49cfc468f7857a32b5d501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: {fileID: 1910685954}
   tower: {fileID: 4671512273338340792, guid: 072a2823c699641e496027ce5e65d6d6, type: 3}
-  navMeshPath: {fileID: 23800000, guid: 23c0afb4936f47d4e983df3852ac47dc, type: 2}
 --- !u!4 &215928030
 Transform:
   m_ObjectHideFlags: 0
@@ -482,7 +480,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &770210277
 PrefabInstance:
@@ -750,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6552737093001720096, guid: 069aa6be1ec6872ceab434384f9fe81c, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6552737093001720096, guid: 069aa6be1ec6872ceab434384f9fe81c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1061,16 +1059,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
+      propertyPath: weaponsPrefab.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: weapons_prefab.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
+      propertyPath: weaponsPrefab.Array.data[0]
+      value: 
+      objectReference: {fileID: 6969716694405725693, guid: ff37dfcf7dfa5f34f8d979e132388224, type: 3}
+    - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
+      propertyPath: weaponsPrefab.Array.data[1]
+      value: 
+      objectReference: {fileID: 6767124374343854201, guid: ee45202d72ab53c5a895d2a598c71a21, type: 3}
+    - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
+      propertyPath: weaponsPrefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 7706202435064674986, guid: 393018514c6de4a1b967b19499ebaea3, type: 3}
     - target: {fileID: 6005905206119888800, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: weapons_prefab.Array.data[1]
       value: 
       objectReference: {fileID: 6767124374343854201, guid: ee45202d72ab53c5a895d2a598c71a21, type: 3}
     - target: {fileID: 6005905206119888801, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6005905206119888801, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: m_LocalScale.y

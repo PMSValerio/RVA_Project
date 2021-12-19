@@ -1,19 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponControllerOQ : MonoBehaviour
-{
+public class WeaponControllerOQ : MonoBehaviour {
 
-    public GameObject[] weapons_prefab;
+    public GameObject[] weaponsPrefab;
     private List<GameObject> weapons;
-    private int current = 0;
+    private int current;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         weapons = new List<GameObject>();
-        foreach (GameObject weapon in weapons_prefab) {
+        foreach (GameObject weapon in weaponsPrefab) {
             GameObject w = Instantiate(weapon);
             //w.transform.parent = transform;
             weapons.Add(w);
@@ -22,8 +19,7 @@ public class WeaponControllerOQ : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (OVRInput.GetDown(OVRInput.Button.Two)) {
             SwitchWeapon(current+1);
         }

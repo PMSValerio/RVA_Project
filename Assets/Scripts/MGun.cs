@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MGun : Weapon
-{
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
+public class MGun : Weapon {
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (action) {
             var direction = 200*transform.TransformDirection(Vector3.forward);
             RaycastHit hit;
@@ -20,7 +10,7 @@ public class MGun : Weapon
             Debug.DrawRay (transform.position, direction, Color.cyan, Time.deltaTime, false);
             if (Physics.Raycast(transform.position + transform.forward, direction, out hit, 300)) {
 
-                if (hit.collider.gameObject.tag == "Enemy") {
+                if (hit.collider.gameObject.CompareTag("Enemy")) {
                     Enemy en = hit.collider.gameObject.GetComponent<Enemy>();
 
                     en.Damage(5);

@@ -1,25 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PistolBullet : MonoBehaviour
-{
+public class PistolBullet : MonoBehaviour {
 
     public float speed = 8f;
     public int power = 5;
 
-    public float lifeDuration = 2f;
-    float lifeTimer;
+    private const float lifeDuration = 2f;
+    private float lifeTimer;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         lifeTimer = lifeDuration;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         transform.position += transform.forward * speed * Time.deltaTime;
 
         lifeTimer -= Time.deltaTime;
@@ -29,7 +24,7 @@ public class PistolBullet : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col) {
-        if (col.gameObject.tag == "Enemy") {
+        if (col.gameObject.CompareTag("Enemy")) {
             Enemy en = col.gameObject.GetComponent<Enemy>();
 
             en.Damage(5);

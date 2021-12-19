@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Stalker : Enemy
-{
+public class Stalker : Enemy {
 
-    static int setting = 0;
+    private static int setting;
 
     Material m_Material;
 
@@ -26,16 +23,15 @@ public class Stalker : Enemy
     float rotSpeed = 2f;
     Vector3 detPos;
 
-    float holdLim = 0.5f;
-    float holdTimer = 0f;
+    private float holdLim = 0.5f;
+    private float holdTimer;
 
     Quaternion offsetRot;
     Vector3 offsetVec;
 
 
     // Start is called before the first frame update
-    void Start()
-    {
+    protected override void Start() {
         offsetRot = Random.rotation;
         offsetVec = offsetRot * Vector3.forward;
 
@@ -49,18 +45,17 @@ public class Stalker : Enemy
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    private void Update() {
         switch(state) {
             case State.OFF:
-                if (Input.GetKeyDown(KeyCode.Space)) {
+                if (Input.GetKeyDown(KeyCode.Space) || !GameManager.Instance.GetForward()) {
                     state = State.HOLD;
                     holdLim = Random.Range(0.5f, 2f);
                     nextState = State.DETACH;
                     m_Material.EnableKeyword("_EMISSION");
                     setting++;
                 }
-            break;
+                break;
             case State.DETACH:
                 float step =  detSpeed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, detPos, step);
@@ -71,17 +66,17 @@ public class Stalker : Enemy
                     nextState = State.ROTATE;
                     setting--;
                 }
-            break;
+                break;
             case State.HOLD:
                 holdTimer += Time.deltaTime;
                 if (holdTimer >= holdLim) {
                     state = nextState;
                     holdTimer = 0;
                 }
-            break;
+                break;
             case State.ROTATE:
                 if (setting == 0) {
-                    Vector3 targetDirection = Player.transform.position - transform.position;
+                    Vector3 targetDirection = GameManager.Instance.Player.transform.position - transform.position;
 
                     float singleStep = rotSpeed * Time.deltaTime;
                     Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
@@ -92,10 +87,9 @@ public class Stalker : Enemy
                         state = State.SEEK;
                     }
                 }
-                
-            break;
+                break;
             case State.SEEK:
-                Vector3 dst = Player.transform.position + 2 * offsetVec;
+                Vector3 dst = GameManager.Instance.Player.transform.position + 2 * offsetVec;
                 transform.LookAt(dst, Vector3.up);
                 transform.position += transform.forward * speed * Time.deltaTime;
 
@@ -103,14 +97,13 @@ public class Stalker : Enemy
                     state = State.STALK;
                 }
                 else if (Vector3.Distance(transform.position, dst) < 3f) {
-                    transform.LookAt(Player.transform);
+                    transform.LookAt(GameManager.Instance.Player.transform);
                 }
-            break;
+                break;
             case State.STALK:
-                transform.position = Player.transform.position + 2 * offsetVec;
-                transform.LookAt(Player.transform);
+                transform.position = GameManager.Instance.Player.transform.position + 2 * offsetVec;
+                transform.LookAt(GameManager.Instance.Player.transform);
             break;
         }
-        
     }
 }
