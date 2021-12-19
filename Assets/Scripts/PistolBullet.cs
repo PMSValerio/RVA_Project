@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PeaBullet : MonoBehaviour
+public class PistolBullet : MonoBehaviour
 {
 
     public float speed = 8f;
@@ -34,9 +34,6 @@ public class PeaBullet : MonoBehaviour
 
             en.Damage(5);
             Destroy(gameObject);
-        }
-        else {
-            Debug.Log("Not enemy");
         }
     }
 }

@@ -96,9 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f42b405de4bf3a7084f8bfb363a3391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 6005905206613675262}
-  minX: -360
-  maxX: 360
   minY: -60
   maxY: 60
 --- !u!114 &6005905206119888800
@@ -113,8 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4491e9578a6f2b2abb4f91f2035976e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons:
+  weapons_prefab:
   - {fileID: 6969716694405725693, guid: ff37dfcf7dfa5f34f8d979e132388224, type: 3}
+  - {fileID: 6767124374343854201, guid: ee45202d72ab53c5a895d2a598c71a21, type: 3}
 --- !u!1 &6005905206613675260
 GameObject:
   m_ObjectHideFlags: 0

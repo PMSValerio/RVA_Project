@@ -26,37 +26,30 @@ public class Tower : MonoBehaviour {
         for (int i = lowLimit; i < topLimit; i++) {
             if (Random.Range(0f, 1f) <= droneProb) {
                 float y = i;
-
+                
                 // near side face
-                float x = transform.position.x;
-                float z = transform.position.z - 1.5f;
+                float x = 0;
+                float z = -1.5f;
 
                 float face = Random.Range(0f, 1f);
                 if (face < 0.35) { // bridge side face
-                    Debug.Log("A");
-                    x = transform.position.x - side * 1.5f;
-                    z = transform.position.z;
-                    Instantiate(sentinel, new Vector3(x,y,z), Quaternion.LookRotation(Vector3.back));
+                    x = -side * 1.5f;
+                    z = 0;
                 }
                 else if (face < 0.5) { // chasm side face
-                    Debug.Log("B");
-                    x = transform.position.x + side * 1.5f;
-                    z = transform.position.z;
-                    Instantiate(sentinel, new Vector3(x,y,z), Quaternion.LookRotation(Vector3.forward));
+                    x = -side * 1.5f;
+                    z = 0;
                 }
                 else if (face < 0.65) { // far side face
-                    Debug.Log("C");
-                    x = transform.position.x;
-                    z = transform.position.z + 1.5f;
-                    Instantiate(sentinel, new Vector3(x,y,z), Quaternion.LookRotation(Vector3.left));
+                    x = 0;
+                    z = 1.5f;
                 }
-                else {
-                    Debug.Log("D");
-                    Instantiate(sentinel, new Vector3(x,y,z), Quaternion.LookRotation(Vector3.right));
-                }
+                Vector3 forward = new Vector3(x,y,z);
 
-                
-                Debug.Log(new Vector3(x,y,z));
+                //newDrone.transform.position = new Vector3(x,y,z);
+                newDrone.transform.position = transform.position + forward;
+                forward = new Vector3(forward.x,0,forward.z);
+                newDrone.transform.localRotation = Quaternion.LookRotation(forward,Vector3.up);
 
                 i += droneInterval;
             }
