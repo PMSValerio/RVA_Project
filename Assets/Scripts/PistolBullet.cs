@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PistolBullet : MonoBehaviour {
 
-    public float speed = 8f;
+    public float speed = 32f;
     public int power = 5;
 
     private const float lifeDuration = 2f;

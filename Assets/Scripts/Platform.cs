@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Platform : MonoBehaviour {
 
     private Vector3 sourcePosition; // Platform's source position
     private Vector3 goalPosition; // Platform's destination position
     private NavMeshAgent agent; // NavMesh Agent - (AI movement)
+
+    [SerializeField] private Button startButton;
     
     private void Awake() {
         sourcePosition = transform.position;
@@ -15,6 +18,8 @@ public class Platform : MonoBehaviour {
     private void Start() {
         agent = gameObject.GetComponent<NavMeshAgent>();
         agent.SetDestination(goalPosition);
+        agent.updateRotation = false;
+        agent.speed = 0;
         GameManager.Instance.SetForward(true);
     }
 
@@ -33,5 +38,14 @@ public class Platform : MonoBehaviour {
         if (agent.path.corners.Length > 1 && GameManager.Instance.GetPathCheckpoints() is null) {
             GameManager.Instance.SetPathCheckpoints(agent.path.corners);
         }
+    }
+
+    public void SetAgentSpeed(float value) {
+        agent.speed = value;
+        startButton.gameObject.SetActive(false);
+    }
+
+    public float GetAgentSpeed() {
+        return agent.speed;
     }
 }

@@ -40,8 +40,6 @@ public class Stalker : Enemy {
         detPos = transform.position + transform.forward;
         state = State.OFF;
         m_Material.DisableKeyword("_EMISSION");
-
-        Debug.Log(offsetVec);
     }
 
     // Update is called once per frame

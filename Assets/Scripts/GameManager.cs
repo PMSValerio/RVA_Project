@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour {
     // Singleton pattern
@@ -16,9 +17,12 @@ public class GameManager : MonoBehaviour {
         } else {
             Instance = this;
         }
-        Player = GameObject.Find("Player");
     }
-    
+
+    private void Start() {
+        Player = GameObject.Find("PlayerOQ");
+    }
+
     public void SetForward(bool value) {
         forward = value;
     }

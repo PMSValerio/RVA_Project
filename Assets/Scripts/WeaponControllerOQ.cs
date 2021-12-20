@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponControllerOQ : MonoBehaviour {
 
@@ -7,12 +8,14 @@ public class WeaponControllerOQ : MonoBehaviour {
     private List<GameObject> weapons;
     private int current;
 
+    [SerializeField] private Platform platformWithAgent;
+    
     // Start is called before the first frame update
     void Start() {
         weapons = new List<GameObject>();
         foreach (GameObject weapon in weaponsPrefab) {
             GameObject w = Instantiate(weapon);
-            //w.transform.parent = transform;
+            w.transform.parent = transform;
             weapons.Add(w);
         }
         SwitchWeapon(0);
@@ -20,7 +23,13 @@ public class WeaponControllerOQ : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (OVRInput.GetDown(OVRInput.Button.Two)) {
+
+        if (platformWithAgent.GetAgentSpeed() == 0 && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger)>0) {
+            platformWithAgent.SetAgentSpeed(3.5f);
+        }
+        
+        OVRInput.Update();
+        if (OVRInput.GetDown(OVRInput.Button.One)) {
             SwitchWeapon(current+1);
         }
         else if (OVRInput.GetDown(OVRInput.Button.Two)) {
@@ -30,11 +39,11 @@ public class WeaponControllerOQ : MonoBehaviour {
         Vector3 p1, p2;
         Quaternion r1, r2;
 
-        p1 = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch);
-        r1 = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
-
-        p2 = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
-        r2 = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+        p1 = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch) + transform.position;
+        r1 = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+        
+        p2 = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch) + transform.position;
+        r2 = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
 
         Weapon wep = weapons[current].GetComponent<Weapon>();
         wep.Manipulate(p1,r1,p2,r2);
