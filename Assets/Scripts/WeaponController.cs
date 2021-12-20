@@ -9,6 +9,8 @@ public class WeaponController : MonoBehaviour {
     private List<GameObject> weapons;
     private int current;
 
+    [SerializeField] private Platform platformWithAgent;
+
     // Start is called before the first frame update
     void Start() {
         weapons = new List<GameObject>();
@@ -23,6 +25,10 @@ public class WeaponController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (platformWithAgent.GetAgentSpeed() == 0 && Input.GetMouseButtonDown(0)) {
+            platformWithAgent.SetAgentSpeed(3.5f);
+        }
+
         if (Input.GetAxis("Mouse ScrollWheel") > 0f) {
             SwitchWeapon(current+1);
         }
@@ -37,7 +43,7 @@ public class WeaponController : MonoBehaviour {
 
         Weapon wep = weapons[current].GetComponent<Weapon>();
         wep.Manipulate(p1,r1,p2,r2);
-        wep.action = Input.GetMouseButtonDown(0);
+        wep.action = Input.GetMouseButton(0);
     }
 
     void SwitchWeapon(int i) {

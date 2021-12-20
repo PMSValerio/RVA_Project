@@ -94,10 +94,8 @@ public class Stalker : Enemy {
                 if (Vector3.Distance(transform.position, dst) < 0.05f) {
                     state = State.STALK;
                 }
-                else if (Vector3.Distance(transform.position, dst) < 3f) {
-                    transform.LookAt(GameManager.Instance.Player.transform);
-                }
-                break;
+                transform.LookAt(GameManager.Instance.Player.transform);
+            break;
             case State.STALK:
                 transform.position = GameManager.Instance.Player.transform.position + 2 * offsetVec;
                 transform.LookAt(GameManager.Instance.Player.transform);

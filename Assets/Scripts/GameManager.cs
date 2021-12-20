@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        Player = GameObject.Find("PlayerOQ");
+        Player = GameObject.Find("Player");
     }
 
     public void SetForward(bool value) {
