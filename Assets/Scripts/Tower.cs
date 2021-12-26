@@ -8,7 +8,7 @@ public class Tower : MonoBehaviour {
     private const int droneInterval = 2; // minimum interval spawned drones must have between each other
     private const int lowLimit = -2; // the lowest y for spawned drones
     private const int topLimit = 10; // the highest y for spawned drones
-    private const float droneProb = 0.2f; // chance of spawning drone at each step
+    private const float droneProb = 0.01f; // chance of spawning drone at each step
 
     float side = 1f; // which side of the bridge this tower is in (1 for positive x; -1 for negative x)
 
@@ -44,16 +44,18 @@ public class Tower : MonoBehaviour {
                     x = 0;
                     z = 1.5f;
                 }
+                
                 Vector3 forward = new Vector3(x,y,z);
-
-                //newDrone.transform.position = new Vector3(x,y,z);
                 GameObject newDrone = Instantiate(sentinel);
                 newDrone.transform.position = transform.position + forward;
                 forward = new Vector3(forward.x,0,forward.z);
                 newDrone.transform.localRotation = Quaternion.LookRotation(forward,Vector3.up);
+                
+                GameManager.Instance.IncrementNumEnemies();
 
                 i += droneInterval;
             }
         }
     }
+    
 }

@@ -46,7 +46,7 @@ public class Stalker : Enemy {
     private void Update() {
         switch(state) {
             case State.OFF:
-                if (Input.GetKeyDown(KeyCode.Space) || !GameManager.Instance.GetForward()) {
+                if (Input.GetKeyDown(KeyCode.Space) || !GameManager.Instance.GetIsOnFirstStage()) {
                     state = State.HOLD;
                     holdLim = Random.Range(0.5f, 2f);
                     nextState = State.DETACH;

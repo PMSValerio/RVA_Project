@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class PistolBullet : MonoBehaviour {
@@ -24,11 +25,24 @@ public class PistolBullet : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider col) {
-        if (col.gameObject.CompareTag("Enemy")) {
-            Enemy en = col.gameObject.GetComponent<Enemy>();
-
-            en.Damage(5);
-            Destroy(gameObject);
+        switch (col.gameObject.tag) {
+            case "Enemy":
+                // Collision with Drone
+                if (col.gameObject.TryGetComponent<Enemy>(out Enemy enemy)) {
+                    enemy.Damage(5);
+                } 
+                // Collision with Drone's Eye
+                else {
+                    col.gameObject.GetComponentInParent<Enemy>().Damage(5);
+                }
+                break;
+            case "Goal":
+                Destroy(col.gameObject);
+                break;
+            default:
+                if (col.gameObject.name.Equals("Platform")) return;
+                break;
         }
+        Destroy(gameObject);
     }
 }
