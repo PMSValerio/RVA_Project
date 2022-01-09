@@ -23,7 +23,7 @@ public class WeaponController : ControllerParent {
 
         Vector3 p1 = cam.transform.position + cam.transform.forward + cam.transform.right*0.5f + cam.transform.up*(-0.4f);
         Quaternion r1 = cam.transform.rotation;
-        Vector3 p2 = cam.transform.position + 2*cam.transform.forward + cam.transform.right*0.5f;
+        Vector3 p2 = cam.transform.position + 2*cam.transform.forward + cam.transform.right*0.5f + cam.transform.up*(-0.4f);
         Quaternion r2 = cam.transform.rotation;
 
         Weapon wep = weapons[current].GetComponent<Weapon>();

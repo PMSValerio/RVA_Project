@@ -13,10 +13,10 @@ public class WeaponControllerOQ : ControllerParent {
         
         OVRInput.Update();
         if (Time.timeScale == 0) return;
-        if (OVRInput.GetDown(OVRInput.Button.One)) {
+        if (OVRInput.GetDown(OVRInput.Button.Two)) {
             SwitchWeapon(current+1);
         }
-        else if (OVRInput.GetDown(OVRInput.Button.Two)) {
+        else if (OVRInput.GetDown(OVRInput.Button.One)) {
             SwitchWeapon(current-1);
         }
 

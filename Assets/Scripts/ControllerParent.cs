@@ -26,7 +26,7 @@ public class ControllerParent : MonoBehaviour {
     protected void SwitchWeapon(int i) {
         weapons[current].gameObject.SetActive(false);
         current = i % weapons.Count;
-        if (current<0) current*=-1;
+        if (current<0) current = weapons.Count + i;
         weapons[current].gameObject.SetActive(true);
     }
 }
