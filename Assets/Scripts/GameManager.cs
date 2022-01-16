@@ -117,6 +117,14 @@ public class GameManager : MonoBehaviour {
         return playerHPCap;
     }
 
+    public int GetPlayerWeaponAmmo() {
+        return Player.GetComponent<ControllerParent>().GetAmmo();
+    }
+
+    public int GetPlayerWeaponMaxAmmo() {
+        return Player.GetComponent<ControllerParent>().GetMaxAmmo();
+    }
+
     private void DiePlayer() {
         gameObject.GetComponent<DamageEffect>().dieAnim = true;
         Player.GetComponent<ControllerParent>().SetCanFire(false);

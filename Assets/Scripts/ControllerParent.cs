@@ -35,4 +35,12 @@ public class ControllerParent : MonoBehaviour {
     public void SetCanFire(bool yes) {
         canAction = yes;
     }
+
+    public int GetAmmo() {
+        return weapons[current].GetComponent<Weapon>().ammo;
+    }
+
+    public int GetMaxAmmo() {
+        return weapons[current].GetComponent<Weapon>().ammoMax;
+    }
 }

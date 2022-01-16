@@ -34,7 +34,6 @@ public class Sabre : Weapon {
         Vector3 newtip = transform.position + transform.up * 2;
 
         swing = (newtip-tip).magnitude >= swingThresh;
-        Debug.Log((newtip-tip).magnitude);
 
         tip = newtip;
 

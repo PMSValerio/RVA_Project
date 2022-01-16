@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
-    protected int ammoMax;
-    protected int ammo;
+    public int ammoMax;
+    public int ammo;
 
     public bool action;
 
