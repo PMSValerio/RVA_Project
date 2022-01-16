@@ -6,12 +6,14 @@ public class ControllerParent : MonoBehaviour {
     public GameObject[] weaponsPrefab;
     protected List<GameObject> weapons;
     protected int current;
+    protected bool canAction;
     
     // Start is called before the first frame update
     protected void Start() {
+        canAction = true;
         weapons = new List<GameObject>();
         foreach (GameObject weapon in weaponsPrefab) {
-            GameObject w = Instantiate(weapon, transform, true);
+            var w = Instantiate(weapon, transform, true);
             weapons.Add(w);
         }
         SwitchWeapon(0);
@@ -28,5 +30,9 @@ public class ControllerParent : MonoBehaviour {
         current = i % weapons.Count;
         if (current<0) current = weapons.Count + i;
         weapons[current].gameObject.SetActive(true);
+    }
+
+    public void SetCanFire(bool yes) {
+        canAction = yes;
     }
 }

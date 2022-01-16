@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Stalker : Enemy {
 
+    private static int power = 10;
+
+    private bool shakeDir = true;
+    private float shakeToggleTimer = 0f;
+
     private static int setting;
 
     Material m_Material;
@@ -18,7 +23,6 @@ public class Stalker : Enemy {
         STALK
     }
 
-    float speed = 2f;
     float detSpeed = 1f;
     float rotSpeed = 2f;
     Vector3 detPos;
@@ -26,12 +30,15 @@ public class Stalker : Enemy {
     private float holdLim = 0.5f;
     private float holdTimer;
 
+    private float boomTime = 3.0f;
+
     Quaternion offsetRot;
     Vector3 offsetVec;
 
 
     // Start is called before the first frame update
     protected override void Start() {
+        speed = 3.0f;
         offsetRot = Random.rotation;
         offsetVec = offsetRot * Vector3.forward;
 
@@ -66,6 +73,7 @@ public class Stalker : Enemy {
                 }
                 break;
             case State.HOLD:
+                if (speed == 0) break;
                 holdTimer += Time.deltaTime;
                 if (holdTimer >= holdLim) {
                     state = nextState;
@@ -91,15 +99,35 @@ public class Stalker : Enemy {
                 transform.LookAt(dst, Vector3.up);
                 transform.position += transform.forward * speed * Time.deltaTime;
 
-                if (Vector3.Distance(transform.position, dst) < 0.05f) {
+                if (Vector3.Distance(transform.position, dst) < 0.5f) {
                     state = State.STALK;
                 }
                 transform.LookAt(GameManager.Instance.Player.transform);
             break;
             case State.STALK:
-                transform.position = GameManager.Instance.Player.transform.position + 2 * offsetVec;
+                float posOffset = shakeToggleTimer * 3.0f/boomTime;
+                transform.position = GameManager.Instance.Player.transform.position + 2 * offsetVec + (shakeDir?posOffset:-posOffset)*transform.up;
                 transform.LookAt(GameManager.Instance.Player.transform);
+
+                shakeToggleTimer += Time.deltaTime;
+                if (shakeToggleTimer >= 0.05f) {
+                    shakeDir = !shakeDir;
+                    shakeToggleTimer = 0;
+                }
+
+                if (speed == 0) break;
+                holdTimer += Time.deltaTime;
+                if (holdTimer >= boomTime) {
+                    Blow();
+                    holdTimer = 0;
+                }
             break;
         }
+    }
+
+    private void Blow() {
+        GameManager.Instance.DamagePlayer(power);
+        // TODO: Explosion Animation
+        Destroy(gameObject);
     }
 }

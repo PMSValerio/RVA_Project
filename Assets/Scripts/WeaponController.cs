@@ -28,6 +28,6 @@ public class WeaponController : ControllerParent {
 
         Weapon wep = weapons[current].GetComponent<Weapon>();
         wep.Manipulate(p1,r1,p2,r2);
-        wep.action = Input.GetMouseButton(0);
+        wep.action = canAction && Input.GetMouseButton(0);
     }
 }
