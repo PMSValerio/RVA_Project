@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa76a4f318a50cd5953bf6ed83b9351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoMax: 0
+  ammo: 0
   action: 0
 --- !u!1 &8848987632207265771
 GameObject:

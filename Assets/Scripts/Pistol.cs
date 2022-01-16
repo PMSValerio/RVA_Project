@@ -31,7 +31,7 @@ public class Pistol : Weapon {
             pointerEnd = transform.InverseTransformPoint(hit.point);
             pointerEnd = new Vector3(og.x,og.y,pointerEnd.z);
         }
-        if (ammo >=0 && action && !lastAction) {
+        if (ammo > 0 && action && !lastAction) {
             ammo--;
             shootAudio.Play();
             GameObject bulletObj = Instantiate(bulletPre);

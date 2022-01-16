@@ -61,8 +61,8 @@ public class DamageEffect : MonoBehaviour
 
     public bool DieEffect(float delta) {
         red = 0;
-        if (damageRedAlpha < 0.7f) damageRedAlpha = GameManager.Instance.dieTimer * 0.7f/(GameManager.Instance.dieDuration*2/3);
-        else damageRedAlpha = 0.7f;
+        if (damageRedAlpha < 0.85f) damageRedAlpha = GameManager.Instance.dieTimer * 0.7f/(GameManager.Instance.dieDuration*2/3);
+        else damageRedAlpha = 0.85f;
 
         return false;
     }
