@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 5c2bc5446ec1f3b4e83aa395cec75d8d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Blanka
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: e47b4e7940599504599607a5cff2378b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

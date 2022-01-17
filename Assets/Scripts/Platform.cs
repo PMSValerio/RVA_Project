@@ -17,9 +17,6 @@ public class Platform : MonoBehaviour {
     }
 
     private void Update() {
-        // Keep the player in the middle of the platform
-        GameManager.Instance.Player.transform.position = new Vector3(transform.position.x, GameManager.Instance.Player.transform.position.y, transform.position.z);
-
         if (GameManager.Instance.NavMeshAgent.path.corners.Length == 1) {
             GameManager.Instance.StopNavMeshAgent();    
         }
@@ -27,6 +24,12 @@ public class Platform : MonoBehaviour {
         if (GameManager.Instance.GetPathCheckpoints() is null || GameManager.Instance.NavMeshAgent.path.corners.Length > GameManager.Instance.GetPathCheckpoints().Length) {
             GameManager.Instance.SetPathCheckpoints(GameManager.Instance.NavMeshAgent.path.corners);
         }
+        
+        if (GameManager.Instance.GetIsGamePaused()) {
+            return;
+        }
+        // Keep the player in the middle of the platform
+        GameManager.Instance.Player.transform.position = new Vector3(transform.position.x, GameManager.Instance.Player.transform.position.y, transform.position.z);
     }
 
     public void SetDestinationToGoal(bool toGoal) {

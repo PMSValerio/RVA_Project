@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MouseLook : MonoBehaviour {
+public class CustMouseLook : MonoBehaviour {
     // MouseLook attributes
     private const float speedX = 5F; // Mouse horizontal speed
     private const float speedY = 2F; // Mouse vertical speed

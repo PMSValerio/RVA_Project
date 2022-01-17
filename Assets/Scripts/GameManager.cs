@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour {
     
     private const float runningNavMeshAgentSpeed = 2.0f; // NavMeshAgent speed while moving
 
+    private bool isGamePaused = true;
+    private bool wasAgentRunning = false;
+    private bool hasGameStarted = false;
+
     private void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(this.gameObject);
@@ -28,10 +32,10 @@ public class GameManager : MonoBehaviour {
     private void Start() {
         Player = GameObject.Find("Player");
         NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
-        Overlay = GameObject.Find("CanvasOverlay").GetComponent<UIOverlay>();
+        Overlay = GameObject.Find("HUD").GetComponent<UIOverlay>();
         
         NavMeshAgent.updateRotation = false;
-        StopNavMeshAgent();
+        SetIsGamePaused(true);
     }
 
     public void SetIsOnFirstStage(bool value) {
@@ -40,6 +44,24 @@ public class GameManager : MonoBehaviour {
 
     public bool GetIsOnFirstStage() {
         return isOnFirstStage;
+    }
+
+    public void SetIsGamePaused(bool value) {
+        isGamePaused = value;
+        if (value) {
+            if (NavMeshAgent.speed > 0.0f) {
+                wasAgentRunning = true;
+            } else {
+                wasAgentRunning = false;
+            }
+            StopNavMeshAgent();
+        } else if (wasAgentRunning) {
+            ResumeNavMeshAgent();
+        }
+    }
+    
+    public bool GetIsGamePaused() {
+        return isGamePaused;
     }
     
     public void SetPathCheckpoints(Vector3[] value) {
@@ -64,19 +86,24 @@ public class GameManager : MonoBehaviour {
         return numEnemies;
     }
 
+    public bool GetHasGameStarted() {
+        return hasGameStarted;
+    }
+    
     //
     // NavMeshAgent Speed
     //
 
     // Resume NavMeshAgent
     public void ResumeNavMeshAgent() {
+        hasGameStarted = true;
         Overlay.ToggleOnEnemiesAlive();
         NavMeshAgent.speed = runningNavMeshAgentSpeed;
     }
     
     // Stop NavMeshAgent
     public void StopNavMeshAgent() {
-        Overlay.ToggleOffEnemiesAlive();
+        //Overlay.ToggleOffEnemiesAlive();
         NavMeshAgent.speed = 0.0f;
     }
 }

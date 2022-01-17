@@ -1,8 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIHit : MonoBehaviour {
+    
+    
     private void Start() {
         StartCoroutine(FadeText(GetComponentInChildren<Text>()));
     }
@@ -11,13 +14,30 @@ public class UIHit : MonoBehaviour {
         if (other.gameObject.CompareTag("Bullet")) {
             switch (name) {
                 case "Start":
-                    GameManager.Instance.ResumeNavMeshAgent();
+                    GameManager.Instance.SetIsGamePaused(false);
+                    Invoke(nameof(InvokeResumeNavMeshAgent), 4f);
+                    break;
+                case "Levels":
+                    // TODO
+                    break;
+                case "Resume":
+                    GameManager.Instance.Overlay.TogglePause();
+                    break;
+                case "Retry":
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    // TODO
+                    break;
+                case "MainMenu":
+                    // TODO
                     break;
             }
             
             Destroy(other.gameObject);
-            gameObject.SetActive(false);
         }
+    }
+
+    private void InvokeResumeNavMeshAgent() {
+        GameManager.Instance.ResumeNavMeshAgent();
     }
     
     private IEnumerator FadeText(Text text) {

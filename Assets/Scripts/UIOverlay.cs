@@ -3,9 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIOverlay : MonoBehaviour {
+    [SerializeField] private GameObject inGameHUD;
+    [SerializeField] private Transform canvasTransform;
     [SerializeField] private Text enemiesAliveText;
-    [SerializeField] private Button levelCompletedButton;
-    [SerializeField] private GameObject pausePanel; 
+    [SerializeField] private Text levelCompletedText;
+
+    private Vector3 playerPosition;
     
     // Start is called before the first frame update
     void Start() {
@@ -18,43 +21,42 @@ public class UIOverlay : MonoBehaviour {
     }
 
     public void ToggleOnEnemiesAlive() {
-        enemiesAliveText.gameObject.SetActive(true);
+        inGameHUD.SetActive(true);
+        StartCoroutine(ScaleUp(canvasTransform, new Vector3(0.3f, 0.3f, 0.3f), 0.02f));
     }
     
     public void ToggleOffEnemiesAlive() {
-        enemiesAliveText.gameObject.SetActive(false);
+        inGameHUD.SetActive(false);
     }
     
     public void SetEnemiesAlive(int value) {
-        enemiesAliveText.text = value + " enemies";
+        enemiesAliveText.text = value + "\nenemies remaining";
     }
 
     public void ToggleOnLevelCompleted() {
         ToggleOffEnemiesAlive();
             
-        levelCompletedButton.gameObject.SetActive(true);
-        StartCoroutine(FadeText(levelCompletedButton.gameObject.GetComponentInChildren<Text>()));
+        levelCompletedText.gameObject.SetActive(true);
+        StartCoroutine(FadeText(levelCompletedText));
     }
 
     public void TogglePause() {
-        if (Cursor.lockState == CursorLockMode.Locked) {
+        if (GameManager.Instance.GetIsGamePaused()) {
+            ResumeGameButton();
+        } else {
             PauseGame();
         }
-        else {
-            ResumeGameButton();
-        }
+
+        GameManager.Instance.SetIsGamePaused(!GameManager.Instance.GetIsGamePaused());
     }
     
-    public void ResumeGameButton() {
-        Cursor.lockState = CursorLockMode.Locked;
-        pausePanel.SetActive(false);
-        Time.timeScale = 1.0f;
+    private void ResumeGameButton() {
+        GameManager.Instance.Player.transform.position = playerPosition;
     }
 
-    public void PauseGame() {
-        Cursor.lockState = CursorLockMode.None;
-        pausePanel.SetActive(true);
-        Time.timeScale = 0.0f;
+    private void PauseGame() {
+        playerPosition = GameManager.Instance.Player.transform.position;
+        GameManager.Instance.Player.transform.position = new Vector3(-10282.7012f, 1.5f, -4200.65088f);
     }
 
     private IEnumerator FadeText(Text text) {
@@ -80,4 +82,16 @@ public class UIOverlay : MonoBehaviour {
             yield return null;
         }
     }
+    
+    private IEnumerator ScaleUp(Transform objectTransform, Vector3 scale, float timeScale){
+        float progress = 0;
+     
+        while(progress <= 1){
+            objectTransform.localScale = Vector3.Lerp(objectTransform.localScale, scale, progress);
+            progress += Time.deltaTime * timeScale;
+            yield return null;
+        }
+        objectTransform.localScale = scale;
+     
+    } 
 }
