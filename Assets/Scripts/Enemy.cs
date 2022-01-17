@@ -3,7 +3,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
     // Enemy attributes
     private int hp = 1; // Enemy's health points
-    private const float speed = 2; // Enemy's speed
+    protected float speed = 2; // Enemy's speed
+    protected float speedOG = 2;
 
     private bool isDead;
 
@@ -46,5 +47,14 @@ public class Enemy : MonoBehaviour {
             GameManager.Instance.Overlay.ToggleOnLevelCompleted();
         }
         Destroy(gameObject);
+    }
+
+    public void PauseUnpause(bool pause) {
+        if (pause) {
+            speed = 0;
+        }
+        else {
+            speed = speedOG;
+        }
     }
 }

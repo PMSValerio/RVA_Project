@@ -27,6 +27,6 @@ public class WeaponControllerOQ : ControllerParent {
 
         Weapon wep = weapons[current].GetComponent<Weapon>();
         wep.Manipulate(p1,r1,p2,r2);
-        wep.action = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger)>0;
+        wep.action = canAction && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger)>0;
     }
 }
