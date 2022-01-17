@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,13 +21,14 @@ public class GameManager : MonoBehaviour {
     private bool isGamePaused = true;
     private bool wasAgentRunning = false;
     private bool hasGameStarted = false;
+    private int previousCurrentWeaponIndex = 0;
     public float dieDuration = 5.0f;
     public float dieTimer = 0;
     private bool isDead = false;
 
     // --- Player Stats (included in GameManager for ease of access) ---
 
-    private int playerHP;
+    [SerializeField] private int playerHP;
     private const int playerHPCap = 100;
 
     private void Awake() {
@@ -69,19 +71,38 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SetIsGamePaused(bool value) {
-        isGamePaused = value;
+        StartCoroutine(TeleportFade(value));
+    }
+
+    private IEnumerator TeleportFade(bool value) {
         if (value) {
+            previousCurrentWeaponIndex = Player.GetComponent<ControllerParent>().GetCurrent();
+            Invoke(nameof(SetWeaponToPistol), 0.9f);
+            Overlay.ToggleFader();
+            yield return new WaitForSeconds(1);
+            Overlay.ToggleOffEnemiesAlive();
             if (NavMeshAgent.speed > 0.0f) {
                 wasAgentRunning = true;
             } else {
                 wasAgentRunning = false;
             }
             StopNavMeshAgent();
-        } else if (wasAgentRunning) {
+            isGamePaused = true;
+            yield break;
+        }
+        Overlay.ToggleFader();
+        yield return new WaitForSeconds(1);
+        if (wasAgentRunning) {
             ResumeNavMeshAgent();
         }
+        isGamePaused = false;
+        Player.GetComponent<ControllerParent>().SwitchWeapon(previousCurrentWeaponIndex);
     }
-    
+
+    private void SetWeaponToPistol() {
+        Player.GetComponent<ControllerParent>().SwitchWeapon(0);
+    }
+
     public bool GetIsGamePaused() {
         return isGamePaused;
     }
@@ -170,7 +191,6 @@ public class GameManager : MonoBehaviour {
     
     // Stop NavMeshAgent
     public void StopNavMeshAgent() {
-        //Overlay.ToggleOffEnemiesAlive();
         NavMeshAgent.speed = 0.0f;
     }
 }

@@ -22,11 +22,22 @@ public class ControllerParent : MonoBehaviour {
 
     protected void Update() {
         if (Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
-            GameManager.Instance.Overlay.TogglePause();
+            GameManager.Instance.Overlay.ToggleOnPause();
+        }
+
+        if (weapons[current].gameObject.GetComponent<Weapon>().ammoMax == -1) {
+            weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = "\u221E";
+            weaponsHUD[current].gameObject.GetComponentInChildren<Text>().fontSize = 30;
+        } else {
+            weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.GetPlayerWeaponAmmo().ToString();
         }
     }
 
-    protected void SwitchWeapon(int i) {
+    public void SwitchWeapon(int i) {
+        // Do NOT let players switch weapons on Menus
+        if (GameManager.Instance.GetIsGamePaused()) {
+            return;
+        }
         weapons[current].gameObject.SetActive(false);
         weaponsHUD[current].gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color32(179, 246, 255, 50);
         weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = "";
@@ -36,7 +47,6 @@ public class ControllerParent : MonoBehaviour {
         
         weapons[current].gameObject.SetActive(true);
         weaponsHUD[current].gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color32(179, 246, 255, 255);
-        weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = "5/50";
     }
 
     public void SetCanFire(bool yes) {
@@ -45,6 +55,10 @@ public class ControllerParent : MonoBehaviour {
 
     public int GetAmmo() {
         return weapons[current].GetComponent<Weapon>().ammo;
+    }
+
+    public int GetCurrent() {
+        return current;
     }
 
     public int GetMaxAmmo() {

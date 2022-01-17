@@ -256,6 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a7b79044952fd55b93b5aae1402d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoMax: 0
+  ammo: 0
   action: 0
   bulletPre: {fileID: 7706202435064674986, guid: 393018514c6de4a1b967b19499ebaea3, type: 3}
   shootAudio: {fileID: 236454723026903051}

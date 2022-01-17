@@ -21,7 +21,7 @@ public class UIHit : MonoBehaviour {
                     // TODO
                     break;
                 case "Resume":
-                    GameManager.Instance.Overlay.TogglePause();
+                    GameManager.Instance.Overlay.ToggleOffPause();
                     break;
                 case "Retry":
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

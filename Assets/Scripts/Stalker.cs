@@ -128,6 +128,6 @@ public class Stalker : Enemy {
     private void Blow() {
         GameManager.Instance.DamagePlayer(power);
         // TODO: Explosion Animation
-        Destroy(gameObject);
+        base.Die();
     }
 }

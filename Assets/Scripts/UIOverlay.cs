@@ -7,6 +7,7 @@ public class UIOverlay : MonoBehaviour {
     [SerializeField] private Transform canvasTransform;
     [SerializeField] private Text enemiesAliveText;
     [SerializeField] private Text levelCompletedText;
+    [SerializeField] private Image panel; 
 
     private Vector3 playerPosition;
     
@@ -30,7 +31,11 @@ public class UIOverlay : MonoBehaviour {
     }
     
     public void SetEnemiesAlive(int value) {
-        enemiesAliveText.text = value + "\nenemies remaining";
+        if (value > 0) {
+            enemiesAliveText.text = value + "\nenemies remaining";
+        } else {
+            enemiesAliveText.text = "boss remaining";
+        }
     }
 
     public void ToggleOnLevelCompleted() {
@@ -40,14 +45,20 @@ public class UIOverlay : MonoBehaviour {
         StartCoroutine(FadeText(levelCompletedText));
     }
 
-    public void TogglePause() {
-        if (GameManager.Instance.GetIsGamePaused()) {
-            ResumeGameButton();
-        } else {
-            PauseGame();
-        }
+    public void ToggleFader() {
+        StartCoroutine(FadeTeleport());
+    }
 
-        GameManager.Instance.SetIsGamePaused(!GameManager.Instance.GetIsGamePaused());
+    public void ToggleOnPause() {
+        Invoke(nameof(PauseGame), 1.1f);
+
+        GameManager.Instance.SetIsGamePaused(true);
+    }
+    
+    public void ToggleOffPause() {
+        Invoke(nameof(ResumeGameButton), 1.0f);
+
+        GameManager.Instance.SetIsGamePaused(false);
     }
     
     private void ResumeGameButton() {
@@ -57,6 +68,30 @@ public class UIOverlay : MonoBehaviour {
     private void PauseGame() {
         playerPosition = GameManager.Instance.Player.transform.position;
         GameManager.Instance.Player.transform.position = new Vector3(-10282.7012f, 1.5f, -4200.65088f);
+    }
+    
+    private IEnumerator FadeTeleport() {
+        const float timeDivisor = 0.5f;
+
+        // FadeIn Panel
+        panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a);
+        while (panel.color.a < 1.0f) {
+            panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a + (Time.deltaTime / timeDivisor));
+            yield return null;
+        }
+
+        // Show up panel for showTime seconds
+        float showTime = 1.5f;
+        while (showTime > 0.0f) {
+            showTime -= (Time.deltaTime / timeDivisor);
+            yield return null;
+        }
+        
+        // FadeOut Panel
+        while (panel.color.a > 0.0f) {
+            panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a - (Time.deltaTime / timeDivisor));
+            yield return null;
+        }
     }
 
     private IEnumerator FadeText(Text text) {

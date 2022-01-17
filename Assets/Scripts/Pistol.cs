@@ -32,7 +32,9 @@ public class Pistol : Weapon {
             pointerEnd = new Vector3(og.x,og.y,pointerEnd.z);
         }
         if (ammo > 0 && action && !lastAction) {
-            ammo--;
+            if (!GameManager.Instance.GetIsGamePaused()) {
+                ammo--;
+            }
             shootAudio.Play();
             GameObject bulletObj = Instantiate(bulletPre);
             bulletObj.transform.position = transform.position + transform.forward;
