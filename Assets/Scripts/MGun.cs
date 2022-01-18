@@ -4,27 +4,28 @@ public class MGun : Weapon {
 
     LineRenderer pointer;
 
-    void Start() {
+    public override void Start() {
+        base.Start();
+
         ammoMax = 1000;
         ammo = ammoMax;
 
-        pointer = transform.Find("Model/Pointer").gameObject.GetComponent<LineRenderer>();
-        pointer.SetPosition(0,pointer.transform.InverseTransformPoint(transform.position));
+        pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();
+        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
     }
 
     // Update is called once per frame
     void Update() {
+        ApplyPose();
+        
         var direction = transform.forward;
         RaycastHit hit;
-        Vector3 og = pointer.GetPosition(0);
-        Vector3 pointerEnd = new Vector3(og.x,og.y,300);
+        Vector3 pointerEnd = transform.InverseTransformPoint(transform.position + 300*transform.forward);
 
-        bool rayHit = Physics.Raycast(transform.position + transform.forward, direction, out hit, 500);
-        if (rayHit && !hit.collider.gameObject.CompareTag("Bullet")) {
+        bool rayHit = Physics.Raycast(transform.position, direction, out hit, 300);
+        if (rayHit && (hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Obstacle") || hit.collider.gameObject.CompareTag("Goal"))) {
             pointerEnd = transform.InverseTransformPoint(hit.point);
-            pointerEnd = new Vector3(og.x,og.y,pointerEnd.z);
         }
-
         if (ammo > 0 && action) {
             ammo--;
             Debug.DrawRay (transform.position, direction, Color.cyan, Time.deltaTime, false);
@@ -53,8 +54,8 @@ public class MGun : Weapon {
         pointer.SetPosition(1,pointerEnd);
     }
 
-    public override void Manipulate(Vector3 pivot1, Quaternion rot1, Vector3 pivot2, Quaternion rot2) {
-        transform.position = pivot1;
-        transform.localRotation = Quaternion.LookRotation(pivot2 - pivot1);
+    public override void ApplyPose() {
+        transform.localPosition = p1;
+        transform.localRotation = Quaternion.LookRotation(p2 - p1);
     }
 }

@@ -11,25 +11,27 @@ public class Pistol : Weapon {
 
     LineRenderer pointer;
 
-    void Start() {
+    public override void Start() {
+        base.Start();
+
         ammoMax = 100;
         ammo = ammoMax;
 
-        pointer = transform.Find("Model/Pointer").gameObject.GetComponent<LineRenderer>();
-        pointer.SetPosition(0,pointer.transform.InverseTransformPoint(transform.position));
+        pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();
+        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
     }
 
     // Update is called once per frame
     void Update() {
+        ApplyPose();
+        
         var direction = transform.forward;
         RaycastHit hit;
-        Vector3 og = pointer.GetPosition(0);
-        Vector3 pointerEnd = new Vector3(og.x,og.y,300);
+        Vector3 pointerEnd = transform.InverseTransformPoint(transform.position + 300*transform.forward);
 
         bool rayHit = Physics.Raycast(transform.position, direction, out hit, 300);
-        if (rayHit && !hit.collider.gameObject.CompareTag("Bullet")) {
+        if (rayHit && (hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Obstacle") || hit.collider.gameObject.CompareTag("Goal"))) {
             pointerEnd = transform.InverseTransformPoint(hit.point);
-            pointerEnd = new Vector3(og.x,og.y,pointerEnd.z);
         }
         if (ammo > 0 && action && !lastAction) {
             if (!GameManager.Instance.GetIsGamePaused()) {

@@ -13,7 +13,9 @@ public class Sabre : Weapon {
 
     Vector3 tip;
 
-    void Start() {
+    public override void Start() {
+        base.Start();
+
         ammoMax = -1; // infinite
         
         trail = transform.Find("Model/Trail").gameObject.GetComponent<TrailRenderer>();
@@ -31,6 +33,8 @@ public class Sabre : Weapon {
 
     // Update is called once per frame
     void Update() {
+        ApplyPose();
+        
         Vector3 newtip = transform.position + transform.up * 2;
 
         swing = (newtip-tip).magnitude >= swingThresh;

@@ -25,11 +25,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3437683020804703858}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0.24999999}
-  m_LocalScale: {x: 1, y: 1.4999999, z: 1.25}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.59999996, z: 1}
   m_Children: []
-  m_Father: {fileID: 6211064747019568806}
-  m_RootOrder: 0
+  m_Father: {fileID: 3631658995785872947}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &4822119341478875783
 LineRenderer:
@@ -157,8 +157,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.3}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.8}
-  m_Children:
-  - {fileID: 4560394624644550619}
+  m_Children: []
   m_Father: {fileID: 3631658995785872947}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -241,6 +240,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6211064747019568806}
+  - {fileID: 4560394624644550619}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -259,6 +259,7 @@ MonoBehaviour:
   ammoMax: 0
   ammo: 0
   action: 0
+  selected: 0
   bulletPre: {fileID: 7706202435064674986, guid: 393018514c6de4a1b967b19499ebaea3, type: 3}
   shootAudio: {fileID: 236454723026903051}
   cooldown: 2

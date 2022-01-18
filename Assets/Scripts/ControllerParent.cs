@@ -16,8 +16,10 @@ public class ControllerParent : MonoBehaviour {
         foreach (GameObject weapon in weaponsPrefab) {
             var w = Instantiate(weapon, transform, true);
             weapons.Add(w);
+            w.transform.parent = transform;
         }
-        SwitchWeapon(0);
+        weapons[current].GetComponent<Weapon>().selected = true;
+        weapons[current].gameObject.SetActive(true);
     }
 
     protected void Update() {
@@ -45,6 +47,7 @@ public class ControllerParent : MonoBehaviour {
         current = i % weapons.Count;
         if (current<0) current = weapons.Count + i;
         
+        weapons[current].GetComponent<Weapon>().selected = true;;
         weapons[current].gameObject.SetActive(true);
         weaponsHUD[current].gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color32(179, 246, 255, 255);
     }

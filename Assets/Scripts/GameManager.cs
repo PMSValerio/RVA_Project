@@ -56,10 +56,6 @@ public class GameManager : MonoBehaviour {
                 dieTimer = 0;
             }
         }
-
-        if (!isDead && Input.GetMouseButton(1)) {
-            DamagePlayer(5);
-        }
     }
 
     public void SetIsOnFirstStage(bool value) {
