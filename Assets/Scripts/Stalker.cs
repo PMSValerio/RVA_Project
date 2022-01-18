@@ -8,6 +8,7 @@ public class Stalker : Enemy {
     private float shakeToggleTimer = 0f;
 
     private static int setting;
+    private bool startedSetting = false;
 
     Material m_Material;
 
@@ -59,6 +60,7 @@ public class Stalker : Enemy {
                     nextState = State.DETACH;
                     m_Material.EnableKeyword("_EMISSION");
                     setting++;
+                    startedSetting = true;
                 }
                 break;
             case State.DETACH:
@@ -70,6 +72,7 @@ public class Stalker : Enemy {
                     holdLim = 0.5f;
                     nextState = State.ROTATE;
                     setting--;
+                    startedSetting = false;
                 }
                 break;
             case State.HOLD:
@@ -128,6 +131,12 @@ public class Stalker : Enemy {
     private void Blow() {
         GameManager.Instance.DamagePlayer(power);
         // TODO: Explosion Animation
+        Die();
+    }
+
+    protected override void Die() {
+        if (startedSetting) setting--;
+        startedSetting = false;
         base.Die();
     }
 }

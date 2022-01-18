@@ -56,6 +56,6 @@ public class MGun : Weapon {
 
     public override void ApplyPose() {
         transform.localPosition = p1;
-        transform.localRotation = Quaternion.LookRotation(p2 - p1);
+        transform.rotation = Quaternion.LookRotation(p2 - p1);
     }
 }

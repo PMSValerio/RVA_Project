@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour {
     }
 
     // Destroy itself
-    protected void Die() {
+    protected virtual void Die() {
         // Prevent double method call (e.g: enemy's body and eye both hit)
         isDead = true;
         

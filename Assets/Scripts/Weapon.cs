@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour {
 
     public virtual void ApplyPose() {
         transform.localPosition = p1;
-        transform.localRotation = r1;
+        transform.rotation = r1;
     }
 
     public virtual void Manipulate(Vector3 pivot1, Quaternion rot1, Vector3 pivot2, Quaternion rot2) {

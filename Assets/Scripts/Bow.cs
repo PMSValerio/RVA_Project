@@ -29,8 +29,6 @@ public class Bow : Weapon
 
     // Update is called once per frame
     void Update() {
-        ApplyPose();
-
         if (cooltimer>0) {
             cooltimer-=Time.deltaTime;
             if (cooltimer<=0) arrow.gameObject.SetActive(true);
@@ -51,6 +49,7 @@ public class Bow : Weapon
                 }
             }
         }
+        ApplyPose();
     }
 
     bool DistToPull(float dist) {
@@ -64,15 +63,11 @@ public class Bow : Weapon
 
     void Fire(bool misfire) {
         if (misfire) {
-            Debug.Log("BAKA!!!");
         }
         else {
-            Debug.Log("HANATTE!!");
             GameObject bulletObj = Instantiate(arrowPre);
-            bulletObj.transform.position = bow.transform.position + bow.transform.forward;
-            bulletObj.GetComponent<Arrow>().move = bow.transform.forward*1*pullStr;
-            //Debug.Log(bulletObj.GetComponent<Arrow>().move);
-            Debug.Log(bow.transform.forward);
+            bulletObj.transform.position = bow.position + bow.forward;
+            bulletObj.GetComponent<Arrow>().move = bow.forward*1*pullStr;
         }
         cooltimer = cooldown;
         arrow.gameObject.SetActive(false);
@@ -94,13 +89,13 @@ public class Bow : Weapon
             }
 
             var rot = Quaternion.LookRotation(p2 - p1);
-            arrow.localRotation = rot;
-            bow.localRotation = rot;
+            arrow.rotation = rot;
+            bow.rotation = rot;
         }
         else {
             arrow.localPosition = p1;
-            arrow.localRotation = r1;
-            bow.localRotation = r2;
+            arrow.rotation = r1;
+            bow.rotation = r2;
         }
     }
 }

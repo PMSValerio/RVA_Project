@@ -6,7 +6,7 @@ public class Arrow : MonoBehaviour {
     public float speed = 32f;
     public int power = 50;
 
-    float gravity = 0;
+    float gravity = -0.005f;
 
     public Vector3 move = Vector3.zero;
 
@@ -18,13 +18,10 @@ public class Arrow : MonoBehaviour {
     void FixedUpdate() {
         move = new Vector3(move.x,move.y+gravity,move.z);
 
-        if(move != Vector3.zero) GetComponent<Rigidbody>().rotation = Quaternion.LookRotation(move);
-        //transform.position += move;
-
-        //Debug.Log(transform.position);
+        if(move != Vector3.zero) transform.rotation = Quaternion.LookRotation(move);
+        transform.position += move;
 
         if (transform.position.y < -100) {
-            Debug.Log("Bye");
             Destroy(gameObject);
         }
     }

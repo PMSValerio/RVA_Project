@@ -16,7 +16,7 @@ public class ControllerParent : MonoBehaviour {
         foreach (GameObject weapon in weaponsPrefab) {
             var w = Instantiate(weapon, transform, true);
             weapons.Add(w);
-            w.transform.parent = transform;
+            w.transform.SetParent(transform,false);
         }
         weapons[current].GetComponent<Weapon>().selected = true;
         weapons[current].gameObject.SetActive(true);
