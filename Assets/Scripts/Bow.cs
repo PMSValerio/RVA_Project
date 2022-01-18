@@ -17,6 +17,7 @@ public class Bow : Weapon
 
     float pullStr;
     float pullLimit = 0.8f;
+    bool pulling;
 
     // Start is called before the first frame update
     public override void Start() {
@@ -36,11 +37,17 @@ public class Bow : Weapon
         else {
             if (readied) {
                 float dist = (bow.position - arrow.position).magnitude;
+                if (!pulling) {
+                    if (dist<0.3f) {
+                        pulling = true;
+                    }
+                }
+
                 bool misfire = DistToPull(dist);
 
                 if (!action || misfire) {
                     readied = false;
-                    Fire(misfire);
+                    if (pulling) Fire(misfire);
                 }
             }
             else {
@@ -53,6 +60,7 @@ public class Bow : Weapon
     }
 
     bool DistToPull(float dist) {
+        if (!pulling) return false;
         float aux = dist; // the value of dist after conversion to a 0-1 value
 
         pullStr = aux;
@@ -67,11 +75,12 @@ public class Bow : Weapon
         else {
             GameObject bulletObj = Instantiate(arrowPre);
             bulletObj.transform.position = bow.position + bow.forward;
-            bulletObj.GetComponent<Arrow>().move = bow.forward*1*pullStr;
+            bulletObj.GetComponent<Arrow>().move = bow.forward*0.8f*pullStr;
         }
         cooltimer = cooldown;
         arrow.gameObject.SetActive(false);
         pullStr = 0;
+        pulling = false;
     }
 
     public override void ApplyPose() {
@@ -79,7 +88,8 @@ public class Bow : Weapon
         if (readied) {
 
             var dist = (p1 - p2).magnitude;
-            if (dist >= 0.6) {
+            Debug.Log(dist);
+            if (pulling && dist >= 0.6) {
                 arrow.localPosition += arrow.TransformVector(new Vector3(0,0,-0.005f));
                 var newdist = (arrow.localPosition - p2).magnitude;
                 if (newdist>dist) arrow.localPosition = p1;
@@ -96,6 +106,12 @@ public class Bow : Weapon
             arrow.localPosition = p1;
             arrow.rotation = r1;
             bow.rotation = r2;
+        }
+        if (pulling) {
+            transform.Find("String").localPosition = arrow.localPosition;
+        }
+        else {
+            transform.Find("String").localPosition = bow.localPosition;
         }
     }
 }

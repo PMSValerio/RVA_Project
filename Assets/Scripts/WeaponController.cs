@@ -34,7 +34,7 @@ public class WeaponController : ControllerParent {
         if (wep is Bow) {
             if (wep.action) {
                 acCounter += 0.01f;
-                p1 = cam.transform.position + 0.7f*cam.transform.forward + (-cam.transform.forward*acCounter) + cam.transform.right*0.5f + cam.transform.up*(-0.4f);
+                p1 = cam.transform.position + 0.8f*cam.transform.forward + (-cam.transform.forward*acCounter) + cam.transform.right*0.5f + cam.transform.up*(-0.4f);
                 p2 = cam.transform.position + cam.transform.forward + cam.transform.right*0.5f + cam.transform.up*(-0.4f);
             }
             else {
