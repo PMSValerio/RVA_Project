@@ -1,5 +1,4 @@
 using UnityEngine;
-using NavMeshBuilder = UnityEditor.AI.NavMeshBuilder;
 
 public class Platform : MonoBehaviour {
 

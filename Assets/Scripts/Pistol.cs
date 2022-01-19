@@ -34,13 +34,22 @@ public class Pistol : Weapon {
             pointerEnd = transform.InverseTransformPoint(hit.point);
         }
         if (ammo > 0 && action && !lastAction) {
+			bool flag = false;
             if (!GameManager.Instance.GetIsGamePaused()) {
-                ammo--;
+                if (!GameManager.Instance.GetHasGameStarted()) {
+                    flag = true;
+                }
+                else {
+                    ammo--;
+                }
             }
-            shootAudio.Play();
-            GameObject bulletObj = Instantiate(bulletPre);
-            bulletObj.transform.position = transform.position + transform.forward;
-            bulletObj.transform.forward = transform.forward;
+
+            if (!flag) {
+                shootAudio.Play();
+                GameObject bulletObj = Instantiate(bulletPre);
+                bulletObj.transform.position = transform.position + transform.forward;
+                bulletObj.transform.forward = transform.forward;
+            }
         }
 
         lastAction = action;

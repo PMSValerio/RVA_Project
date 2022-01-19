@@ -23,6 +23,7 @@ public class ControllerParent : MonoBehaviour {
     }
 
     protected void Update() {
+        //if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
         if (Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
             GameManager.Instance.Overlay.ToggleOnPause();
         }

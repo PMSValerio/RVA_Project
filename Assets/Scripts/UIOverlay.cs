@@ -45,20 +45,20 @@ public class UIOverlay : MonoBehaviour {
         StartCoroutine(FadeText(levelCompletedText));
     }
 
-    public void ToggleFader() {
-        StartCoroutine(FadeTeleport());
+    public void ToggleFader(float fadeTime = 0.5f, float solidTime = 0.5f) {
+        StartCoroutine(FadeTeleport(fadeTime, solidTime));
     }
 
     public void ToggleOnPause() {
-        Invoke(nameof(PauseGame), 1.1f);
+        Invoke(nameof(PauseGame), 0.2f);
 
-        GameManager.Instance.SetIsGamePaused(true);
+        GameManager.Instance.SetIsGamePaused(true, 0.15f, 0.05f);
     }
     
     public void ToggleOffPause() {
-        Invoke(nameof(ResumeGameButton), 1.0f);
+        Invoke(nameof(ResumeGameButton), 0.2f);
 
-        GameManager.Instance.SetIsGamePaused(false);
+        GameManager.Instance.SetIsGamePaused(false, 0.15f, 0.05f);
     }
     
     private void ResumeGameButton() {
@@ -70,26 +70,24 @@ public class UIOverlay : MonoBehaviour {
         GameManager.Instance.Player.transform.position = new Vector3(-10282.7012f, 1.5f, -4200.65088f);
     }
     
-    private IEnumerator FadeTeleport() {
-        const float timeDivisor = 0.5f;
-
+    private IEnumerator FadeTeleport(float fadeTime = 0.5f, float solidTime = 0.5f) {
         // FadeIn Panel
         panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a);
         while (panel.color.a < 1.0f) {
-            panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a + (Time.deltaTime / timeDivisor));
+            panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a + (Time.deltaTime / fadeTime));
             yield return null;
         }
 
         // Show up panel for showTime seconds
         float showTime = 1.5f;
         while (showTime > 0.0f) {
-            showTime -= (Time.deltaTime / timeDivisor);
+            showTime -= (Time.deltaTime / solidTime);
             yield return null;
         }
         
         // FadeOut Panel
         while (panel.color.a > 0.0f) {
-            panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a - (Time.deltaTime / timeDivisor));
+            panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a - (Time.deltaTime / fadeTime));
             yield return null;
         }
     }

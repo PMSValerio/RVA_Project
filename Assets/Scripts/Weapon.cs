@@ -19,6 +19,7 @@ public class Weapon : MonoBehaviour {
     }
 
     public virtual void ApplyPose() {
+        //transform.position = p1;
         transform.localPosition = p1;
         transform.rotation = r1;
     }
