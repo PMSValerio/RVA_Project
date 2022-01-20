@@ -15,7 +15,7 @@ public class UIHit : MonoBehaviour {
             switch (name) {
                 case "Start":
                     GameManager.Instance.SetIsGamePaused(false);
-                    Invoke(nameof(InvokeResumeNavMeshAgent), 4f);
+                    Invoke(nameof(InvokeResumeNavMeshAgent), 3f);
                     break;
                 case "Levels":
                     // TODO

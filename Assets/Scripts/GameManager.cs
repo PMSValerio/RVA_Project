@@ -66,16 +66,17 @@ public class GameManager : MonoBehaviour {
         return isOnFirstStage;
     }
 
-    public void SetIsGamePaused(bool value) {
-        StartCoroutine(TeleportFade(value));
+    public void SetIsGamePaused(bool value, float fadeTime = 0.5f, float solidTime = 0.5f) {
+        StartCoroutine(TeleportFade(value, fadeTime, solidTime));
     }
 
-    private IEnumerator TeleportFade(bool value) {
-        if (value) {
+    private IEnumerator TeleportFade(bool toPause, float fadeTime = 0.5f, float solidTime = 0.5f) {
+        if (toPause) {
             previousCurrentWeaponIndex = Player.GetComponent<ControllerParent>().GetCurrent();
-            Invoke(nameof(SetWeaponToPistol), 0.9f);
-            Overlay.ToggleFader();
-            yield return new WaitForSeconds(1);
+            //SetWeaponToPistol();
+            Invoke(nameof(SetWeaponToPistol), 0.15f);
+            Overlay.ToggleFader(fadeTime, solidTime);
+            yield return new WaitForSeconds(0.16f);
             Overlay.ToggleOffEnemiesAlive();
             if (NavMeshAgent.speed > 0.0f) {
                 wasAgentRunning = true;
@@ -86,8 +87,9 @@ public class GameManager : MonoBehaviour {
             isGamePaused = true;
             yield break;
         }
-        Overlay.ToggleFader();
-        yield return new WaitForSeconds(1);
+        Overlay.ToggleFader(fadeTime, solidTime);
+        yield return new WaitForSeconds(fadeTime);
+        //yield return new WaitForSeconds(0.3f);
         if (wasAgentRunning) {
             ResumeNavMeshAgent();
         }
