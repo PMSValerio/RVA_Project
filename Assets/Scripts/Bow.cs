@@ -26,6 +26,9 @@ public class Bow : Weapon
         bow = transform.Find("Bow");
         arrow = transform.Find("Arrow");
         pullStr = 0;
+
+        ammoMax = 15;
+        ammo = ammoMax;
     }
 
     // Update is called once per frame
@@ -88,7 +91,6 @@ public class Bow : Weapon
         if (readied) {
 
             var dist = (p1 - p2).magnitude;
-            Debug.Log(dist);
             if (pulling && dist >= 0.6) {
                 arrow.localPosition += arrow.TransformVector(new Vector3(0,0,-0.005f));
                 var newdist = (arrow.localPosition - p2).magnitude;

@@ -5,6 +5,8 @@ public class Weapon : MonoBehaviour {
     public int ammoMax;
     public int ammo;
 
+    public bool acquired;
+
     public bool action;
 
     public bool selected = false;
@@ -15,6 +17,7 @@ public class Weapon : MonoBehaviour {
     protected Quaternion r2;
 
     public virtual void Start() {
+        acquired = false;
         if (!selected) gameObject.SetActive(false);
     }
 
@@ -30,5 +33,16 @@ public class Weapon : MonoBehaviour {
         r1 = rot1;
         p2 = pivot2;
         r2 = rot2;
+    }
+
+    public virtual bool AddAmmo(int x) {
+        ammo += x;
+        if (ammo > ammoMax) ammo = ammoMax;
+
+        if (!acquired && x>0) {
+            acquired = true;
+            return true;
+        }
+        return false;
     }
 }

@@ -73,4 +73,13 @@ public class Sabre : Weapon {
             }
         }
     }
+
+    public override bool AddAmmo(int x) {
+        if (!acquired) {
+            acquired = true;
+            return true;
+        }
+        return false;
+        
+    }
 }

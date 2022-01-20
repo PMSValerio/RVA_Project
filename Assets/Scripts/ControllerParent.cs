@@ -41,12 +41,37 @@ public class ControllerParent : MonoBehaviour {
         if (GameManager.Instance.GetIsGamePaused()) {
             return;
         }
+        int newCurr = i % weapons.Count;
+        if (newCurr<0) newCurr = weapons.Count + i;
+        bool upwards = newCurr-current==1 || newCurr-current==-(weapons.Count-1);
+
+        bool found = false;
+        if (!weapons[newCurr].GetComponent<Weapon>().acquired) {
+            for (int ix = 1; ix<4; ix++) {
+                if (upwards) {
+                    newCurr = (newCurr+ix)%weapons.Count;
+                }
+                else {
+                    newCurr = ((current-ix)%weapons.Count+weapons.Count)%weapons.Count;
+                }
+                if (newCurr!=current) {
+                    var wep = weapons[newCurr].GetComponent<Weapon>();
+                    if (wep.acquired) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        }
+        else found = true;
+
+        if (!found) return;
+
         weapons[current].gameObject.SetActive(false);
         weaponsHUD[current].gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color32(179, 246, 255, 50);
         weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = "";
         
-        current = i % weapons.Count;
-        if (current<0) current = weapons.Count + i;
+        current = newCurr;
         
         weapons[current].GetComponent<Weapon>().selected = true;;
         weapons[current].gameObject.SetActive(true);
@@ -67,5 +92,19 @@ public class ControllerParent : MonoBehaviour {
 
     public int GetMaxAmmo() {
         return weapons[current].GetComponent<Weapon>().ammoMax;
+    }
+
+    public void AddAmmo(int ix, int level) {
+        if (weapons[2].GetComponent<Weapon>().acquired) ix = 1; // shamelessly hardcoding against regaining sabre ammo
+
+        float ammo = (weapons[ix].GetComponent<Weapon>().ammoMax / 10) * level;
+        if (weapons[ix].GetComponent<Weapon>().AddAmmo((int)(ammo))) {
+            // TODO: display acquired message
+            Debug.Log("Acquired "+ix);
+        }
+        else {
+            // TODO: display regular ammo message
+        }
+        Debug.Log("Ammo for "+ix+", ammount "+ ammo);
     }
 }

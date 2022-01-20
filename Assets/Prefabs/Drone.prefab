@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1246791113512438539}
   - component: {fileID: 1246791113513404875}
   - component: {fileID: 1246791113515603725}
-  - component: {fileID: 8214147142658075585}
+  - component: {fileID: 1206637212338179914}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Enemy
@@ -95,8 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02a9fc8336e56c7ba2e0838046b581e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8214147142658075585
-BoxCollider:
+  ammoPre: {fileID: 2109499610111459502, guid: 5dc7dcf9e8a6c87318845ecc10ae4d97, type: 3}
+--- !u!136 &1206637212338179914
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,6 +106,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 3.5, z: 4.5}
-  m_Center: {x: 0, y: 0.15, z: 0}
+  m_Radius: 2.2999997
+  m_Height: 5.42565
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.2, z: -0.2408123}
