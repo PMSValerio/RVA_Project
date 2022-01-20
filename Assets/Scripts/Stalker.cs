@@ -44,7 +44,7 @@ public class Stalker : Enemy {
         offsetVec = offsetRot * Vector3.forward;
 
         base.Start();
-        m_Material = transform.Find("Eye").gameObject.GetComponent<Renderer>().material;
+        m_Material = GetComponent<Renderer>().material;
         detPos = transform.position + transform.forward;
         state = State.OFF;
         m_Material.DisableKeyword("_EMISSION");

@@ -30,10 +30,6 @@ public class PistolBullet : MonoBehaviour {
                 // Collision with Drone
                 if (col.gameObject.TryGetComponent<Enemy>(out Enemy enemy)) {
                     enemy.Damage(5);
-                } 
-                // Collision with Drone's Eye
-                else {
-                    col.gameObject.GetComponentInParent<Enemy>().Damage(5);
                 }
                 break;
             case "Goal":
