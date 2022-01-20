@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 244773654938520954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4658814311586648950}
   m_Father: {fileID: 0}
@@ -113,7 +113,7 @@ MonoBehaviour:
   weaponsPrefab:
   - {fileID: 6969716694405725693, guid: ff37dfcf7dfa5f34f8d979e132388224, type: 3}
   - {fileID: 6767124374343854201, guid: ee45202d72ab53c5a895d2a598c71a21, type: 3}
-  platformWithAgent: {fileID: 0}
+  weaponsHUD: []
 --- !u!1001 &4658814311587039730
 PrefabInstance:
   m_ObjectHideFlags: 0

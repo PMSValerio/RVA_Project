@@ -17,6 +17,8 @@ public class Pistol : Weapon {
         ammoMax = 100;
         ammo = ammoMax;
 
+        acquired = true;
+
         pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();
         pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
     }

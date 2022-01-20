@@ -8,6 +8,10 @@ public class Enemy : MonoBehaviour {
 
     private bool isDead;
 
+    protected float droprate = 1;//0.10f;
+
+    public GameObject ammoPre;
+
     protected virtual void Start() {
         
     }
@@ -41,6 +45,8 @@ public class Enemy : MonoBehaviour {
         isDead = true;
         
         GameManager.Instance.DecrementNumEnemies();
+
+        Drops();
         
         // If the player is already on the second stage and there are no more enemies alive, then that level is completed
         if (!GameManager.Instance.GetIsOnFirstStage() && GameManager.Instance.GetNumEnemies() == 0) {
@@ -55,6 +61,19 @@ public class Enemy : MonoBehaviour {
         }
         else {
             speed = speedOG;
+        }
+    }
+
+    public void Drops() {
+        if (ammoPre && Random.Range(0,1)<=droprate) {
+            var ammo = Instantiate(ammoPre);
+            float dist = Vector3.Distance(transform.position,GameManager.Instance.Player.transform.position);
+            ammo.transform.position = transform.position;
+            ammo.transform.forward = transform.forward;
+            float sp = dist * (16-6/50);
+            if (sp<0) sp = 0;
+            else if (sp>16) sp = 16;
+            ammo.GetComponent<Ammo>().speed = sp;
         }
     }
 }
