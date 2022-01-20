@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Stalker : Enemy {
@@ -10,7 +11,7 @@ public class Stalker : Enemy {
     private static int setting;
     private bool startedSetting = false;
 
-    Material m_Material;
+    Material[] m_Material;
 
     private State state = State.OFF;
     private State nextState = State.DETACH;
@@ -44,10 +45,17 @@ public class Stalker : Enemy {
         offsetVec = offsetRot * Vector3.forward;
 
         base.Start();
-        m_Material = GetComponent<Renderer>().material;
+        //m_Material = GetComponent<Renderer>().material;
+        m_Material = new Material[]{
+            transform.Find("Eye").gameObject.GetComponent<Renderer>().material, 
+            transform.Find("Left Eye").gameObject.GetComponent<Renderer>().material, 
+            transform.Find("Right Eye").gameObject.GetComponent<Renderer>().material
+        };
         detPos = transform.position + transform.forward;
         state = State.OFF;
-        m_Material.DisableKeyword("_EMISSION");
+        foreach (Material material in m_Material) {
+            material.DisableKeyword("_EMISSION");
+        }
     }
 
     // Update is called once per frame
@@ -58,7 +66,9 @@ public class Stalker : Enemy {
                     state = State.HOLD;
                     holdLim = Random.Range(0.5f, 2f);
                     nextState = State.DETACH;
-                    m_Material.EnableKeyword("_EMISSION");
+                    foreach (Material material in m_Material) {
+                        material.EnableKeyword("_EMISSION");
+                    }
                     setting++;
                     startedSetting = true;
                 }

@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 8762157283787962770}
   - component: {fileID: 8597315750506877917}
   - component: {fileID: -5480825900800787773}
+  - component: {fileID: -4535022073686514908}
   m_Layer: 0
   m_Name: PeaBullet
   m_TagString: Bullet
@@ -174,3 +175,20 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4535022073686514908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7706202435064674986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 326203c276fc18240bc06d4fb8b3fc7f, type: 2}
