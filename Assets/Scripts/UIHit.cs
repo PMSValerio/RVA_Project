@@ -24,11 +24,10 @@ public class UIHit : MonoBehaviour {
                     GameManager.Instance.Overlay.ToggleOffPause();
                     break;
                 case "Retry":
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                    // TODO
+                    GameManager.Instance.LoadLevel(GameManager.Instance.GetLevel());
                     break;
                 case "MainMenu":
-                    // TODO
+                    GameManager.Instance.LoadLevel(-1);
                     break;
             }
             

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     // Singleton pattern
@@ -11,13 +12,12 @@ public class GameManager : MonoBehaviour {
     public NavMeshAgent NavMeshAgent { get; private set; } // NavMeshAgent Singleton
     public UIOverlay Overlay { get; private set; } // UI Overlay Singleton
 
-    private bool isOnFirstStage;
-    private Vector3[] pathCheckpoints;
-
-    private int numEnemies;
-    
     private const float runningNavMeshAgentSpeed = 2.0f; // NavMeshAgent speed while moving
 
+    private bool isOnFirstStage = false;
+    private Vector3[] pathCheckpoints = null;
+    private int numEnemies = 0;
+    
     private bool isGamePaused = true;
     private bool wasAgentRunning = false;
     private bool hasGameStarted = false;
@@ -30,16 +30,25 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private int playerHP;
     private const int playerHPCap = 100;
+    
+    // Per Level Stats
+    private int newLevel = 0;
+    private int level = 0;
+    private float towerSpawnProbability = 0.02f; // chance of spawning tower at each step
+    private float droneSpawnProbability = 0.01f; // chance of spawning drone at each step
+    private int numBridges = 0; // number of bridges aka path length
 
     private void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(this.gameObject);
         } else {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
     }
 
     private void Start() {
+        level = 0;
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
         NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
@@ -47,6 +56,8 @@ public class GameManager : MonoBehaviour {
         
         NavMeshAgent.updateRotation = false;
         SetIsGamePaused(true);
+        
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
     private void Update() {
@@ -57,7 +68,12 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
-
+         
+    private void OnDisable() {
+        //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+    
     public void SetIsOnFirstStage(bool value) {
         isOnFirstStage = value;
     }
@@ -176,6 +192,10 @@ public class GameManager : MonoBehaviour {
         isDead = true;
     }
 
+    public int GetLevel() {
+        return level;
+    }
+
     //
     // NavMeshAgent Speed
     //
@@ -190,5 +210,58 @@ public class GameManager : MonoBehaviour {
     // Stop NavMeshAgent
     public void StopNavMeshAgent() {
         NavMeshAgent.speed = 0.0f;
+    }
+    
+    //
+    // Level Configuration
+    //
+
+    public void LoadLevel(int level) {
+        newLevel = level;
+        
+        isOnFirstStage = false;
+        pathCheckpoints = null;
+        numEnemies = 0;
+        
+        isGamePaused = true;
+        wasAgentRunning = false;
+        hasGameStarted = false;
+        previousCurrentWeaponIndex = 0;
+        dieDuration = 5.0f;
+        dieTimer = 0;
+        isDead = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
+        playerHP = playerHPCap;
+        Player = GameObject.Find("Player");
+        NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
+        Overlay = GameObject.Find("HUD").GetComponent<UIOverlay>();
+        
+        NavMeshAgent.updateRotation = false;
+        
+        if (level == newLevel) {
+            SetIsGamePaused(false);
+            Invoke(nameof(ResumeNavMeshAgent), 3f);
+        }
+        else {
+            SetIsGamePaused(true);
+            if (newLevel != -1) {
+                level = newLevel;
+            }
+        }
+    }
+
+    public float GetTowerSpawnProbability() {
+        return towerSpawnProbability;
+    }
+
+    public float GetDroneSpawnProbability() {
+        return droneSpawnProbability;
+    }
+
+    public int GetNumBridges() {
+        return numBridges;
     }
 }

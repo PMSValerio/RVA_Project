@@ -5,11 +5,12 @@ public class PathGenerator : MonoBehaviour {
 
     [SerializeField] private GameObject bridge;
     [SerializeField] private GameObject goal;
-    [SerializeField] private int numBridges;
+    private int numBridges;
 
     private const float goalHeight = 3f;
     
     private void Awake() {
+        numBridges = GameManager.Instance.GetNumBridges();
         GeneratePath();
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour {
     // Spawner attributes
     private const float tolerance = 1; // tolerance between NavMeshPath corners
-    private const float towerSpawnProbability = 0.02f; // chance of spawning tower at each step
+    private float towerSpawnProbability; // chance of spawning tower at each step
     private const int towerFreeSpace = 2; // minimum distance towers must have between each other and others objects such as the path
     private const int mapDim = 20; // maximum distance towers can be from path
     private const int cornersOffset = 8; // offset for towers to spawn
@@ -15,6 +15,8 @@ public class SpawnManager : MonoBehaviour {
     
     // Start is called before the first frame update
     private void Start() {
+        towerSpawnProbability = GameManager.Instance.GetTowerSpawnProbability();
+        
         if (tower) {
             Invoke(nameof(SpawnTowers), 0.1f);
         }

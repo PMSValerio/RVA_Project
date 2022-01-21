@@ -8,14 +8,15 @@ public class Tower : MonoBehaviour {
     private const int droneInterval = 2; // minimum interval spawned drones must have between each other
     private const int lowLimit = -2; // the lowest y for spawned drones
     private const int topLimit = 10; // the highest y for spawned drones
-    private const float droneProb = 0.01f; // chance of spawning drone at each step
+    private float droneProb; // chance of spawning drone at each step
 
     float side = 1f; // which side of the bridge this tower is in (1 for positive x; -1 for negative x)
 
     // Start is called before the first frame update
     void Start() {
         //side = Mathf.Sign(transform.position.x);
-
+        droneProb = GameManager.Instance.GetDroneSpawnProbability();
+        
         if (sentinel) SpawnDrones();
         else Debug.Log("Drone Prefab not defined");
     }
