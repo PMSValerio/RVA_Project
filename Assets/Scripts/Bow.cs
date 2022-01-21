@@ -16,7 +16,6 @@ public class Bow : Weapon
     bool readied;
 
     float pullStr;
-    float pullLimit = 0.8f;
     bool pulling;
 
     // Start is called before the first frame update

@@ -41,7 +41,7 @@ public class Sentinel : Enemy
     Vector3 offsetVec;
 
     // Start is called before the first frame update
-    void Start() {
+    protected override void Start() {
         speed = 8.0f;
         offsetRot = Random.rotation;
         offsetVec = offsetRot * Vector3.forward;
