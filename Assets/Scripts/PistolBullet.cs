@@ -29,7 +29,7 @@ public class PistolBullet : MonoBehaviour {
             case "Enemy":
                 // Collision with Drone
                 if (col.gameObject.TryGetComponent<Enemy>(out Enemy enemy)) {
-                    enemy.Damage(5);
+                    enemy.Damage(power);
                 }
                 break;
             case "Goal":

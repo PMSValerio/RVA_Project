@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
+    [SerializeField] private GameObject stalker;
     [SerializeField] private GameObject sentinel;
 
     // TODO: these are temporary values
-    private const int droneInterval = 2; // minimum interval spawned drones must have between each other
+    private const int droneInterval = 3; // minimum interval spawned drones must have between each other
     private const int lowLimit = -2; // the lowest y for spawned drones
-    private const int topLimit = 10; // the highest y for spawned drones
+    private const int topLimit = 15; // the highest y for spawned drones
     private const float droneProb = 0.01f; // chance of spawning drone at each step
+
+    private const float sentinelRatio = 0.4f; // 20% of drones will be sentinels
 
     float side = 1f; // which side of the bridge this tower is in (1 for positive x; -1 for negative x)
 
@@ -16,7 +19,7 @@ public class Tower : MonoBehaviour {
     void Start() {
         //side = Mathf.Sign(transform.position.x);
 
-        if (sentinel) SpawnDrones();
+        if (stalker && sentinel) SpawnDrones();
         else Debug.Log("Drone Prefab not defined");
     }
 
@@ -46,7 +49,13 @@ public class Tower : MonoBehaviour {
                 }
                 
                 Vector3 forward = new Vector3(x,y,z);
-                GameObject newDrone = Instantiate(sentinel);
+
+                GameObject newDrone;
+                if (transform.position.z > 5) { // sentinels shouldn't spawn too far behind
+                    if (Random.Range(0f,1f) <= sentinelRatio) newDrone = Instantiate(sentinel);
+                    else newDrone = Instantiate(stalker);
+                }
+                else newDrone = Instantiate(stalker);
                 newDrone.transform.position = transform.position + forward;
                 forward = new Vector3(forward.x,0,forward.z);
                 newDrone.transform.localRotation = Quaternion.LookRotation(forward,Vector3.up);
