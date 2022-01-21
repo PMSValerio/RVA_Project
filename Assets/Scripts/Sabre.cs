@@ -77,6 +77,7 @@ public class Sabre : Weapon {
     public override bool AddAmmo(int x) {
         if (!acquired) {
             acquired = true;
+            GameManager.Instance.Overlay.SetWeaponAcquired(gameObject.GetComponent<Weapon>().weaponName);
             return true;
         }
         return false;

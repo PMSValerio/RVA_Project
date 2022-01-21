@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private AudioSource tensionAudio;
     [SerializeField] private Material tensionSkybox;
+
+    private const int maxLevel = 3;
     
     private const float runningNavMeshAgentSpeed = 2.0f; // NavMeshAgent speed while moving
 
@@ -35,10 +37,9 @@ public class GameManager : MonoBehaviour {
     private const int playerHPCap = 100;
     
     // Per Level Stats
-    private int newLevel = 0;
-    private int level = 0;
+    private int level = 1;
     private float towerSpawnProbability = 0.02f; // chance of spawning tower at each step
-    private float droneSpawnProbability = 0.01f; // chance of spawning drone at each step
+    private float droneSpawnProbability = 0.0f; // chance of spawning drone at each step
     private int numBridges = 0; // number of bridges aka path length
 
     private void Awake() {
@@ -51,7 +52,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        level = 0;
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
         NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
@@ -149,6 +149,10 @@ public class GameManager : MonoBehaviour {
     public bool GetHasGameStarted() {
         return hasGameStarted;
     }
+
+    public void SetHasGameStarted(bool value) {
+        hasGameStarted = value;
+    }
     
     public void PauseAll(bool pause) {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")) {
@@ -204,6 +208,10 @@ public class GameManager : MonoBehaviour {
         return level;
     }
 
+    public int GetMaxLevel() {
+        return maxLevel;
+    }
+
     //
     // NavMeshAgent Speed
     //
@@ -225,7 +233,7 @@ public class GameManager : MonoBehaviour {
     //
 
     public void LoadLevel(int level) {
-        newLevel = level;
+        this.level = level;
         
         isOnFirstStage = false;
         pathCheckpoints = null;
@@ -238,9 +246,42 @@ public class GameManager : MonoBehaviour {
         dieDuration = 5.0f;
         dieTimer = 0;
         isDead = false;
+        
+        LevelSettings();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    private void LevelSettings() {
+        switch (level) {
+            case 2:
+                towerSpawnProbability = 0.02f;
+                droneSpawnProbability = 0.01f;
+                numBridges = 1;
+                break;
+            case 3:
+                towerSpawnProbability = 0.03f;
+                droneSpawnProbability = 0.02f;
+                numBridges = 2;
+                break;
+            /*case 4:
+                towerSpawnProbability = 0.02f;
+                droneSpawnProbability = 0.0f;
+                numBridges = 2;
+                break;
+            case 5:
+                towerSpawnProbability = 0.02f;
+                droneSpawnProbability = 0.0f;
+                numBridges = 3;
+                break;*/
+            default: // -1, maxLevel and level 1 aka back to menu 
+                towerSpawnProbability = 0.02f;
+                droneSpawnProbability = 0.0f;
+                numBridges = 0;
+                break;
+        }
+    }
+    
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
@@ -249,15 +290,14 @@ public class GameManager : MonoBehaviour {
         
         NavMeshAgent.updateRotation = false;
         
-        if (level == newLevel) {
+        if (level != -1 && level != maxLevel+1) {
+            Overlay.ToggleOnLevelStarting(1.5f, 0.5f);
             SetIsGamePaused(false);
             Invoke(nameof(ResumeNavMeshAgent), 3f);
         }
         else {
+            level = 1;
             SetIsGamePaused(true);
-            if (newLevel != -1) {
-                level = newLevel;
-            }
         }
     }
 

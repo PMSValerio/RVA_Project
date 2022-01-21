@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIHit : MonoBehaviour {
@@ -15,19 +14,21 @@ public class UIHit : MonoBehaviour {
             switch (name) {
                 case "Start":
                     GameManager.Instance.SetIsGamePaused(false);
+                    Invoke(nameof(InvokeLevelStarting), 1f);
                     Invoke(nameof(InvokeResumeNavMeshAgent), 3f);
                     break;
-                case "Levels":
-                    // TODO
+                case "Exit":
+                    Application.Quit();
                     break;
                 case "Resume":
                     GameManager.Instance.Overlay.ToggleOffPause();
                     break;
-                case "Retry":
-                    GameManager.Instance.LoadLevel(GameManager.Instance.GetLevel());
+                case "Tutorial":
+                    // TODO
                     break;
                 case "MainMenu":
-                    GameManager.Instance.LoadLevel(-1);
+                    GameManager.Instance.Overlay.ToggleFader(0.5f);
+                    Invoke(nameof(InvokeMainMenu), 0.5f);
                     break;
             }
             
@@ -35,8 +36,16 @@ public class UIHit : MonoBehaviour {
         }
     }
 
+    private void InvokeMainMenu() {
+        GameManager.Instance.LoadLevel(-1);
+    }
+    
     private void InvokeResumeNavMeshAgent() {
         GameManager.Instance.ResumeNavMeshAgent();
+    }
+    
+    private void InvokeLevelStarting() {
+        GameManager.Instance.Overlay.ToggleOnLevelStarting(1.5f, 0.5f);
     }
     
     private IEnumerator FadeText(Text text) {

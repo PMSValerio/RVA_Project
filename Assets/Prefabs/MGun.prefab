@@ -47,8 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammoMax: 0
   ammo: 0
+  acquired: 0
   action: 0
   selected: 0
+  weaponName: Machine Gun
 --- !u!1 &8848987632207265771
 GameObject:
   m_ObjectHideFlags: 0

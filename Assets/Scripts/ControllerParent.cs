@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +28,7 @@ public class ControllerParent : MonoBehaviour {
         //if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
         if (Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
             GameManager.Instance.Overlay.ToggleOnPause();
+            GameManager.Instance.Overlay.ToggleOffLevelMessages();
         }
 
         if (weapons[current].gameObject.GetComponent<Weapon>().ammoMax == -1) {
@@ -100,11 +103,22 @@ public class ControllerParent : MonoBehaviour {
         float ammo = (weapons[ix].GetComponent<Weapon>().ammoMax / 10) * level;
         if (weapons[ix].GetComponent<Weapon>().AddAmmo((int)(ammo))) {
             // TODO: display acquired message
-            Debug.Log("Acquired "+ix);
+            
+            AcquiredWeapon(ix);
         }
         else {
             // TODO: display regular ammo message
+            AcquiredAmmo(ix, (int) ammo);
         }
-        Debug.Log("Ammo for "+ix+", ammount "+ ammo);
+    }
+
+    private void AcquiredWeapon(int index) {
+        GameManager.Instance.Overlay.SetWeaponAcquired(weapons[index].GetComponent<Weapon>().weaponName);
+        Debug.Log("Acquired "+ weapons[index].GetComponent<Weapon>().weaponName);
+    }
+
+    private void AcquiredAmmo(int weapon, int ammo) {
+        GameManager.Instance.Overlay.SetAmmoAcquired(weapon, ammo);
+        Debug.Log("Ammo for "+weapon+", ammount "+ ammo);
     }
 }

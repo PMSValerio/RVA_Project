@@ -540,8 +540,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammoMax: 0
   ammo: 0
+  acquired: 0
   action: 0
   selected: 0
+  weaponName: Pistol
   bulletPre: {fileID: 7706202435064674986, guid: 393018514c6de4a1b967b19499ebaea3, type: 3}
   shootAudio: {fileID: 1161788126}
   cooldown: 2

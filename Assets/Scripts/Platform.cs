@@ -4,6 +4,8 @@ public class Platform : MonoBehaviour {
 
     private Vector3 sourcePosition; // Platform's source position
     private Vector3 destinationPosition; // Platform's destination position
+
+    private bool bossFight = false;
     
     private void Awake() {
         sourcePosition = transform.position;
@@ -27,6 +29,18 @@ public class Platform : MonoBehaviour {
         if (GameManager.Instance.GetIsGamePaused()) {
             return;
         }
+
+        if (!bossFight) {
+            if (!GameManager.Instance.NavMeshAgent.pathPending) {
+                if (GameManager.Instance.NavMeshAgent.remainingDistance <= GameManager.Instance.NavMeshAgent.stoppingDistance) {
+                    if (!GameManager.Instance.NavMeshAgent.hasPath || GameManager.Instance.NavMeshAgent.velocity.sqrMagnitude == 0f) {
+                        GameManager.Instance.Overlay.TextToBossFight();
+                        bossFight = true;
+                    }
+                }
+            }
+        }
+        
         // Keep the player in the middle of the platform
         GameManager.Instance.Player.transform.position = new Vector3(transform.position.x, GameManager.Instance.Player.transform.position.y, transform.position.z);
     }

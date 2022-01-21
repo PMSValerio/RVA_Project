@@ -296,4 +296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1a8a05b63db5d8abbb7fc82f19a0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoMax: 0
+  ammo: 0
+  acquired: 0
   action: 0
+  selected: 0
+  weaponName: Sabre

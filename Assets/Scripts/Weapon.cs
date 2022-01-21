@@ -11,6 +11,8 @@ public class Weapon : MonoBehaviour {
 
     public bool selected = false;
 
+    public string weaponName;
+
     protected Vector3 p1;
     protected Vector3 p2;
     protected Quaternion r1;
