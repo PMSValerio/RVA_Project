@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
     // Enemy attributes
-    private int hp = 1; // Enemy's health points
+    protected int hp = 1; // Enemy's health points
     protected float speed = 2; // Enemy's speed
     protected float speedOG = 2;
 

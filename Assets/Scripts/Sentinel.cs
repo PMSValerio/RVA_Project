@@ -1,17 +1,16 @@
-using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Stalker : Enemy {
+public class Sentinel : Enemy
+{
 
-    private int tensionHP = 25;
+    private int tensionHP = 10;
 
-    private static int power = 10;
+    private static int power = 5;
 
     private bool shakeDir = true;
     private float shakeToggleTimer = 0f;
-
-    private static int setting;
-    private bool startedSetting = false;
 
     Material[] m_Material;
 
@@ -34,34 +33,28 @@ public class Stalker : Enemy {
     private float holdLim = 0.5f;
     private float holdTimer;
 
-    private float boomTime = 0.5f;
+    private float boomTime = 3.0f;
+
+    private float proximity = 10;
 
     Quaternion offsetRot;
     Vector3 offsetVec;
 
-
     // Start is called before the first frame update
     protected override void Start() {
-        speed = 3.0f;
+        speed = 8.0f;
         offsetRot = Random.rotation;
         offsetVec = offsetRot * Vector3.forward;
 
         base.Start();
-        //m_Material = GetComponent<Renderer>().material;
-        m_Material = new Material[]{
-            transform.Find("Eye").gameObject.GetComponent<Renderer>().material, 
-            transform.Find("Left Eye").gameObject.GetComponent<Renderer>().material, 
-            transform.Find("Right Eye").gameObject.GetComponent<Renderer>().material
-        };
+        //m_Material = GetComponent<Renderer>().material;m.forward;
         detPos = transform.position + transform.forward;
         state = State.OFF;
-        foreach (Material material in m_Material) {
-            material.DisableKeyword("_EMISSION");
-        }
     }
 
     // Update is called once per frame
-    private void Update() {
+    void Update()
+    {
         switch(state) {
             case State.OFF:
                 if (Input.GetKeyDown(KeyCode.Space) || !GameManager.Instance.GetIsOnFirstStage()) {
@@ -69,23 +62,17 @@ public class Stalker : Enemy {
                     holdLim = Random.Range(0.5f, 2f);
                     hp = tensionHP;
                     nextState = State.DETACH;
-                    foreach (Material material in m_Material) {
-                        material.EnableKeyword("_EMISSION");
-                    }
-                    setting++;
-                    startedSetting = true;
                 }
                 break;
             case State.DETACH:
-                float step =  detSpeed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, detPos, step);
-
                 if (Vector3.Distance(transform.position, detPos) < 0.05f) {
-                    state = State.HOLD;
-                    holdLim = 0.5f;
-                    nextState = State.ROTATE;
-                    setting--;
-                    startedSetting = false;
+                    float pz = GameManager.Instance.Player.transform.position.z;
+                    if (Mathf.Abs(transform.position.z - pz) < proximity || transform.position.z > pz) state = State.ROTATE;
+                    Debug.Log("Detach");
+                }
+                else {
+                    float step =  detSpeed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, detPos, step);
                 }
                 break;
             case State.HOLD:
@@ -97,17 +84,15 @@ public class Stalker : Enemy {
                 }
                 break;
             case State.ROTATE:
-                if (setting == 0) {
-                    Vector3 targetDirection = GameManager.Instance.Player.transform.position - transform.position;
+                Vector3 targetDirection = GameManager.Instance.Player.transform.position - transform.position;
 
-                    float singleStep = rotSpeed * Time.deltaTime;
-                    Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+                float singleStep = rotSpeed * Time.deltaTime;
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
 
-                    transform.rotation = Quaternion.LookRotation(newDirection);
+                transform.rotation = Quaternion.LookRotation(newDirection);
 
-                    if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
-                        state = State.SEEK;
-                    }
+                if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
+                    state = State.SEEK;
                 }
                 break;
             case State.SEEK:
@@ -121,12 +106,12 @@ public class Stalker : Enemy {
                 transform.LookAt(GameManager.Instance.Player.transform);
             break;
             case State.STALK:
-                float posOffset = shakeToggleTimer * 3.0f/boomTime;
-                transform.position = GameManager.Instance.Player.transform.position + 2 * offsetVec + (shakeDir?posOffset:-posOffset)*transform.up;
+                float posOffset = shakeToggleTimer * 5.0f/boomTime;
+                transform.position = GameManager.Instance.Player.transform.position + 2 * offsetVec + (shakeDir?posOffset:-posOffset)*transform.right;
                 transform.LookAt(GameManager.Instance.Player.transform);
 
                 shakeToggleTimer += Time.deltaTime;
-                if (shakeToggleTimer >= 0.05f) {
+                if (shakeToggleTimer >= 0.1f) {
                     shakeDir = !shakeDir;
                     shakeToggleTimer = 0;
                 }
@@ -145,11 +130,5 @@ public class Stalker : Enemy {
         GameManager.Instance.DamagePlayer(power);
         // TODO: Explosion Animation
         Die();
-    }
-
-    protected override void Die() {
-        if (startedSetting) setting--;
-        startedSetting = false;
-        base.Die();
     }
 }

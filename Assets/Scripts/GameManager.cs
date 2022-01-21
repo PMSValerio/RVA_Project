@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour {
     public NavMeshAgent NavMeshAgent { get; private set; } // NavMeshAgent Singleton
     public UIOverlay Overlay { get; private set; } // UI Overlay Singleton
 
+    [SerializeField] private AudioSource tensionAudio;
+    [SerializeField] private Material tensionSkybox;
+    
     private const float runningNavMeshAgentSpeed = 2.0f; // NavMeshAgent speed while moving
 
     private bool isOnFirstStage = false;
@@ -154,6 +157,11 @@ public class GameManager : MonoBehaviour {
             }
         }
         NavMeshAgent.speed = pause?0:runningNavMeshAgentSpeed;
+    }
+
+    public void TensionUp() {
+        tensionAudio.Play();
+        RenderSettings.skybox = tensionSkybox;
     }
 
     //

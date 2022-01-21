@@ -17,6 +17,7 @@ public class Goal : MonoBehaviour {
         /*
         GameManager.Instance.ResumeNavMeshAgent();
         GameObject.Find("Platform").GetComponent<Platform>().SetDestinationToGoal(false);
+        GameManager.Instance.TensionUp();
         if (GameManager.Instance.GetNumEnemies() == 0) {
             GameManager.Instance.Overlay.ToggleOnLevelCompleted();
         }
