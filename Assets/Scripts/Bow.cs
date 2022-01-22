@@ -27,7 +27,7 @@ public class Bow : Weapon
         pullStr = 0;
 
         ammoMax = 15;
-        ammo = ammoMax;
+        ResetAmmo();
     }
 
     // Update is called once per frame

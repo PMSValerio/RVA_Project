@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Pistol : Weapon {
@@ -15,18 +14,19 @@ public class Pistol : Weapon {
         base.Start();
 
         ammoMax = 100;
-        ammo = ammoMax;
+        ResetAmmo();
 
         acquired = true;
 
         pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();
-        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
     }
 
     // Update is called once per frame
     void Update() {
         ApplyPose();
         
+        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
+
         var direction = transform.forward;
         RaycastHit hit;
         Vector3 pointerEnd = transform.InverseTransformPoint(transform.position + 300*transform.forward);

@@ -47,4 +47,8 @@ public class Weapon : MonoBehaviour {
         }
         return false;
     }
+    
+    public virtual void ResetAmmo() {
+        ammo = ammoMax;
+    }
 }

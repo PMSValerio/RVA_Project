@@ -12,6 +12,7 @@ public class WeaponControllerOQ : ControllerParent {
         base.Update();
         
         OVRInput.Update();
+        //transform.Find("OVRCameraRig").position = transform.position;
         if (Time.timeScale == 0) return;
         if (OVRInput.GetDown(OVRInput.Button.Two)) {
             SwitchWeapon(current+1);
@@ -26,7 +27,7 @@ public class WeaponControllerOQ : ControllerParent {
         Quaternion r2 = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
 
         Weapon wep = weapons[current].GetComponent<Weapon>();
-        wep.Manipulate(p1,r1,p2,r2);
+        wep.Manipulate(transform.InverseTransformPoint(p1),r1,transform.InverseTransformPoint(p2),r2);
         wep.action = canAction && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger)>0;
     }
 }

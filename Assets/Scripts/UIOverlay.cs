@@ -78,12 +78,13 @@ public class UIOverlay : MonoBehaviour {
 
     public void ToggleOnLevelCompleted() {
         ToggleOffEnemiesAlive();
+        if (GameManager.Instance.GetLevel() == GameManager.Instance.GetMaxLevel()) {
+            GameManager.Instance.SetWeaponToPistol();
+            levelCompletedText.text = "Thanks for\n playing!";
+        }
         GameManager.Instance.SetHasGameStarted(false);
 
         levelCompletedText.gameObject.SetActive(true);
-        if (GameManager.Instance.GetLevel() == GameManager.Instance.GetMaxLevel()) {
-            levelCompletedText.text = "Thanks for\n playing!";
-        }
         StartCoroutine(FadeText(levelCompletedText));
         Invoke(nameof(AuxToggleFader), 4f);
         Invoke(nameof(InvokeNextLevel), 6f);

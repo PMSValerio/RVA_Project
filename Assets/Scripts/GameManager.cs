@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     // Singleton pattern
@@ -116,7 +117,7 @@ public class GameManager : MonoBehaviour {
         Player.GetComponent<ControllerParent>().SwitchWeapon(previousCurrentWeaponIndex);
     }
 
-    private void SetWeaponToPistol() {
+    public void SetWeaponToPistol() {
         Player.GetComponent<ControllerParent>().SwitchWeapon(0);
     }
 
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour {
         return playerHPCap;
     }
 
+    /*
     public int GetPlayerWeaponAmmo() {
         return Player.GetComponent<ControllerParent>().GetAmmo();
     }
@@ -196,6 +198,7 @@ public class GameManager : MonoBehaviour {
     public int GetPlayerWeaponMaxAmmo() {
         return Player.GetComponent<ControllerParent>().GetMaxAmmo();
     }
+    */
 
     private void DiePlayer() {
         gameObject.GetComponent<DamageEffect>().dieAnim = true;
@@ -275,6 +278,24 @@ public class GameManager : MonoBehaviour {
                 numBridges = 3;
                 break;*/
             default: // -1, maxLevel and level 1 aka back to menu 
+                foreach (GameObject weapon in Player.GetComponent<ControllerParent>().weapons) {
+                    if (!weapon.name.Contains("Sabre")) {
+                        weapon.GetComponent<Weapon>().AddAmmo(weapon.GetComponent<Weapon>().ammoMax);
+                    }
+
+                    if (weapon.name.Contains("Pistol")) {
+                        weapon.GetComponent<Weapon>().acquired = true;
+                        weapon.GetComponent<Weapon>().selected = true;
+                        weapon.GetComponent<Weapon>().gameObject.SetActive(true);
+                    } else {
+                        weapon.GetComponent<Weapon>().acquired = false;
+                        weapon.GetComponent<Weapon>().selected = false;
+                        weapon.GetComponent<Weapon>().gameObject.SetActive(false);
+                    }
+                }
+                
+                Player.transform.position = new Vector3(10282.7012f, 1.5f, -4205.65088f);
+
                 towerSpawnProbability = 0.02f;
                 droneSpawnProbability = 0.0f;
                 numBridges = 0;
@@ -284,7 +305,7 @@ public class GameManager : MonoBehaviour {
     
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
         playerHP = playerHPCap;
-        Player = GameObject.Find("Player");
+        Player.GetComponent<ControllerParent>().InitializeHUD();
         NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
         Overlay = GameObject.Find("HUD").GetComponent<UIOverlay>();
         

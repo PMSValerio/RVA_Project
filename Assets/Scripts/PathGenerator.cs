@@ -1,5 +1,5 @@
 using UnityEngine;
-using NavMeshBuilder = UnityEditor.AI.NavMeshBuilder;
+using UnityEngine.AI;
 
 public class PathGenerator : MonoBehaviour {
 
@@ -60,8 +60,7 @@ public class PathGenerator : MonoBehaviour {
             previousDirection = newDirection;
         }
         
-        NavMeshBuilder.ClearAllNavMeshes();
-        NavMeshBuilder.BuildNavMesh();
+        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
         
         // Spawn Goal
         SpawnGoal(previousDirection, previousBridge);

@@ -263,7 +263,8 @@ public class OVRCameraRig : MonoBehaviour
 			leftControllerAnchor.localRotation = leftOffsetPose.orientation;
 		}
 
-		RaiseUpdatedAnchorsEvent();
+		trackingSpace.localPosition = -1 * centerEyeAnchor.localPosition;
+		RaiseUpdatedAnchorsEvent(); 
 	}
 
 	protected virtual void OnBeforeRenderCallback()

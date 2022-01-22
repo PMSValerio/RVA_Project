@@ -1,15 +1,23 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ControllerParent : MonoBehaviour {
     public GameObject[] weaponsPrefab;
-    [SerializeField] private GameObject[] weaponsHUD;
-    protected List<GameObject> weapons;
+    private GameObject[] weaponsHUD;
+    public List<GameObject> weapons;
     protected int current;
     protected bool canAction;
+    
+    private static ControllerParent Instance { get; set; }
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
     
     // Start is called before the first frame update
     protected void Start() {
@@ -22,11 +30,13 @@ public class ControllerParent : MonoBehaviour {
         }
         weapons[current].GetComponent<Weapon>().selected = true;
         weapons[current].gameObject.SetActive(true);
+
+        InitializeHUD();
     }
 
     protected void Update() {
-        //if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
         if (Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
+        //if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
             GameManager.Instance.Overlay.ToggleOnPause();
             GameManager.Instance.Overlay.ToggleOffLevelMessages();
         }
@@ -35,13 +45,17 @@ public class ControllerParent : MonoBehaviour {
             weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = "\u221E";
             weaponsHUD[current].gameObject.GetComponentInChildren<Text>().fontSize = 30;
         } else {
-            weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.GetPlayerWeaponAmmo().ToString();
+            weaponsHUD[current].gameObject.GetComponentInChildren<Text>().text = GetAmmo().ToString();
         }
+    }
+
+    public void InitializeHUD() {
+        weaponsHUD = new[] { GameObject.Find("Pistol Object"), GameObject.Find("MGun Object"), GameObject.Find("Sabre Object"), GameObject.Find("Bow Object")};
     }
 
     public void SwitchWeapon(int i) {
         // Do NOT let players switch weapons on Menus
-        if (GameManager.Instance.GetIsGamePaused()) {
+        if (GameManager.Instance.GetIsGamePaused() || !GameManager.Instance.GetHasGameStarted()) {
             return;
         }
         int newCurr = i % weapons.Count;

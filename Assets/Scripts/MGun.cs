@@ -8,16 +8,17 @@ public class MGun : Weapon {
         base.Start();
 
         ammoMax = 1000;
-        ammo = ammoMax;
+        ResetAmmo();
 
         pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();
-        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
     }
 
     // Update is called once per frame
     void Update() {
         ApplyPose();
         
+        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
+
         var direction = transform.forward;
         RaycastHit hit;
         Vector3 pointerEnd = transform.InverseTransformPoint(transform.position + 300*transform.forward);
