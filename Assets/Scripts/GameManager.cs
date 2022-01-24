@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour {
     }
     
     public void SetPathCheckpoints(Vector3[] value) {
+        Debug.Log("PathCheckpoints set");
         pathCheckpoints = value;
     }
 
@@ -266,11 +267,12 @@ public class GameManager : MonoBehaviour {
     }
 
     private void LevelSettings() {
+        Debug.Log("Level: " + level);
         switch (level) {
             case 2:
                 towerSpawnProbability = 0.02f;
                 droneSpawnProbability = 0.01f;
-                numBridges = 1;
+                numBridges = 10;
                 break;
             case 3:
                 towerSpawnProbability = 0.03f;
@@ -314,6 +316,9 @@ public class GameManager : MonoBehaviour {
     }
     
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
+        pathCheckpoints = null;
+        numEnemies = 0;
+        
         playerHP = playerHPCap;
         Player.GetComponent<ControllerParent>().InitializeHUD();
         NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();

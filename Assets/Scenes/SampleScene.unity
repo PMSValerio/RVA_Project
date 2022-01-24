@@ -1413,6 +1413,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 579661205, guid: e2a0493057d0f1b359b2e3c57ec83d4b, type: 3}
+      propertyPath: m_VolumeLayerMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 244773654938520954, guid: e2a0493057d0f1b359b2e3c57ec83d4b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1469,10 +1473,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6777626970081594121, guid: e2a0493057d0f1b359b2e3c57ec83d4b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8676374702711860712, guid: e2a0493057d0f1b359b2e3c57ec83d4b, type: 3}
       propertyPath: weaponsHUD.Array.data[0]
       value: 
@@ -1489,6 +1489,10 @@ PrefabInstance:
       propertyPath: weaponsHUD.Array.data[3]
       value: 
       objectReference: {fileID: 2137167410}
+    - target: {fileID: 8676374702711860712, guid: e2a0493057d0f1b359b2e3c57ec83d4b, type: 3}
+      propertyPath: weaponsPrefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 9073651565954035848, guid: 2153aa094cd9343a9864df4ab23a6c02, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2a0493057d0f1b359b2e3c57ec83d4b, type: 3}
 --- !u!1 &586257369
@@ -3294,10 +3298,6 @@ PrefabInstance:
     - target: {fileID: 6005905206119888805, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6005905206119888807, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 725c177c4899a2631a1d8f65017edd62, type: 3}

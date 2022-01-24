@@ -13,8 +13,18 @@ public class Platform : MonoBehaviour {
 
     private void Start() {
         destinationPosition = GameObject.Find("Goal").transform.position;
+        Debug.Log(destinationPosition);
         
         SetDestinationToGoal(true);
+    }
+
+    private void AuxSetPathCheckpoints() {
+        Debug.Log(GameManager.Instance.NavMeshAgent.path.corners.Length);
+        if (GameManager.Instance.NavMeshAgent.path.corners.Length == 1) {
+            GameManager.Instance.NavMeshAgent.ResetPath();
+        }
+        GameManager.Instance.NavMeshAgent.SetDestination(destinationPosition);
+        GameManager.Instance.SetPathCheckpoints(GameManager.Instance.NavMeshAgent.path.corners);
     }
 
     private void Update() {
@@ -22,9 +32,12 @@ public class Platform : MonoBehaviour {
             GameManager.Instance.StopNavMeshAgent();    
         }
         
+        /*
         if (GameManager.Instance.GetPathCheckpoints() is null || GameManager.Instance.NavMeshAgent.path.corners.Length > GameManager.Instance.GetPathCheckpoints().Length) {
-            GameManager.Instance.SetPathCheckpoints(GameManager.Instance.NavMeshAgent.path.corners);
+            Invoke(nameof(AuxSetPathCheckpoints), 1f);
         }
+        */
+        AuxSetPathCheckpoints();
         
         if (GameManager.Instance.GetIsGamePaused()) {
             return;
