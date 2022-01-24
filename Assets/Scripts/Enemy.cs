@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour {
     protected float speed = 2; // Enemy's speed
     protected float speedOG = 2;
 
-    private bool isDead;
+    protected bool isDead;
 
     protected float droprate = 1;//0.10f;
     protected bool isBoss = false;
@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour {
 
     // Destroy itself
     protected virtual void Die() {
+        if (isDead) return;
         // Prevent double method call (e.g: enemy's body and eye both hit)
         isDead = true;
         

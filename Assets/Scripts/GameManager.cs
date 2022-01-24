@@ -75,8 +75,14 @@ public class GameManager : MonoBehaviour {
             dieTimer += Time.deltaTime;
             if (dieTimer >= dieDuration) {
                 dieTimer = 0;
+                Overlay.ToggleFader(0.5f);
+                Invoke(nameof(InvokeMainMenu), 0.5f);
             }
         }
+    }
+
+    private void InvokeMainMenu() {
+        LoadLevel(-1);
     }
          
     private void OnDisable() {
@@ -132,7 +138,6 @@ public class GameManager : MonoBehaviour {
     }
     
     public void SetPathCheckpoints(Vector3[] value) {
-        Debug.Log("PathCheckpoints set: " + value.Length);
         pathCheckpoints = value;
     }
 
@@ -260,9 +265,11 @@ public class GameManager : MonoBehaviour {
         wasAgentRunning = false;
         hasGameStarted = false;
         previousCurrentWeaponIndex = 0;
-        dieDuration = 5.0f;
         dieTimer = 0;
         isDead = false;
+        
+        gameObject.GetComponent<DamageEffect>().dieAnim = false;
+        Player.GetComponent<ControllerParent>().SetCanFire(true);
         
         LevelSettings();
         
@@ -270,7 +277,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void LevelSettings() {
-        Debug.Log("Level: " + level);
         switch (level) {
             case 2:
                 towerSpawnProbability = 0.02f;

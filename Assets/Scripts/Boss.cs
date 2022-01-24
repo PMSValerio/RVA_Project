@@ -14,6 +14,9 @@ public class Boss : Enemy {
     }
     
     protected override void Die() {
+        if (isDead) return;
+        isDead = true;
+        GameManager.Instance.Overlay.ToggleBossTimer(false);
         StartCoroutine(WaitTillDestroy());
     }
 
