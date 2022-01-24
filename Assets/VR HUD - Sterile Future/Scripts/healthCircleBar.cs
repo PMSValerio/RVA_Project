@@ -28,7 +28,7 @@ public class healthCircleBar : MonoBehaviour {
         
         if (update) {
             if (circleBar.fillAmount > amount) {
-                circleBar.fillAmount = Mathf.MoveTowards(circleBar.fillAmount, amount, 0.1f * Time.deltaTime);
+                circleBar.fillAmount = Mathf.MoveTowards(circleBar.fillAmount, amount, 0.5f * Time.deltaTime);
             } else update = false;
         }
     }

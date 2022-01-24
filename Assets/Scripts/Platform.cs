@@ -25,11 +25,11 @@ public class Platform : MonoBehaviour {
             return;
         }
 
-        if (!bossFight) {
+        if (!bossFight && GameManager.Instance.GetIsOnFirstStage()) {
             if (!GameManager.Instance.NavMeshAgent.pathPending) {
                 if (GameManager.Instance.NavMeshAgent.remainingDistance <= GameManager.Instance.NavMeshAgent.stoppingDistance) {
                     if (!GameManager.Instance.NavMeshAgent.hasPath || GameManager.Instance.NavMeshAgent.velocity.sqrMagnitude == 0f) {
-                        GameManager.Instance.Overlay.TextToBossFight();
+                        GameManager.Instance.Overlay.ToggleBossTimer(true);
                         bossFight = true;
                     }
                 }

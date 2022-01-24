@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +10,13 @@ public class UIOverlay : MonoBehaviour {
     [SerializeField] private Text levelCompletedText;
     [SerializeField] private Text levelStartingText;
     [SerializeField] private Text weaponAcquiredText;
+    [SerializeField] private Text bossTimerText;
     [SerializeField] private Text[] ammoAcquiredText;
     [SerializeField] private Image panel; 
 
     private Vector3 playerPosition;
-    
+
+    private float bossTimer = 10f;
     // Start is called before the first frame update
     void Start() {
         
@@ -21,13 +24,40 @@ public class UIOverlay : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (bossTimerText.isActiveAndEnabled) {
+            if (bossTimer > 0) {
+                bossTimer -= Time.deltaTime;
+            }
+            else {
+                bossTimer = 0;
+                GameManager.Instance.DamagePlayer(GameManager.Instance.GetPlayerMaxHP());
+            }
+
+            TimeSpan timeSpan = TimeSpan.FromSeconds(bossTimer);
+            bossTimerText.text = string.Format("Time Left\n{0:D2}:{1:D2}", timeSpan.Seconds, (timeSpan.Milliseconds > 0 ? timeSpan.Milliseconds.ToString().Substring(0, timeSpan.Milliseconds.ToString().Length-1) : "00"));
+        }
         
     }
     
     public void ToggleOnEnemiesAlive() {
-        inGameHUD.SetActive(true);
-        inGameMessages.SetActive(true);
-        StartCoroutine(ScaleUp(inGameHUD.transform, new Vector3(0.3f, 0.3f, 0.3f), 0.02f));
+        if (inGameHUD != null) {
+            inGameHUD.SetActive(true);
+            StartCoroutine(ScaleUp(inGameHUD.transform, new Vector3(0.3f, 0.3f, 0.3f), 0.02f));
+        }
+        if (inGameMessages != null) {
+            inGameMessages.SetActive(true);
+        }
+    }
+
+    public void ToggleBossTimer(bool value) {
+        if (value) {
+            TextToBossFight();
+            bossTimerText.gameObject.SetActive(true);
+            bossTimerText.text = "Time Left:\n" + bossTimer;
+        }
+        else {
+            bossTimerText.gameObject.SetActive(false);
+        }
     }
     
     public void ToggleOffEnemiesAlive() {
@@ -48,7 +78,7 @@ public class UIOverlay : MonoBehaviour {
     public void SetWeaponAcquired(string weaponName) {
         weaponAcquiredText.gameObject.SetActive(false);
         weaponAcquiredText.gameObject.SetActive(true);
-        weaponAcquiredText.text = "Weapon Acquired:\n" + weaponName + "!";
+        weaponAcquiredText.text = "Weapon Acquired\n" + weaponName + "!";
         StartCoroutine(FadeText(weaponAcquiredText, 1.5f, 0.5f));
     }
     
