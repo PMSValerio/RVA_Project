@@ -117,6 +117,7 @@ public class Stalker : Enemy {
 
                 if (Vector3.Distance(transform.position, dst) < 0.5f) {
                     state = State.STALK;
+                    timebomb.Play();
                 }
                 transform.LookAt(GameManager.Instance.Player.transform);
             break;
@@ -134,6 +135,7 @@ public class Stalker : Enemy {
                 if (speed == 0) break;
                 holdTimer += Time.deltaTime;
                 if (holdTimer >= boomTime) {
+                    timebomb.Stop();
                     Blow();
                     holdTimer = 0;
                 }
@@ -150,6 +152,7 @@ public class Stalker : Enemy {
     protected override void Die() {
         if (startedSetting) setting--;
         startedSetting = false;
+        AudioSource.PlayClipAtPoint(boom,transform.position,0.8f);
         base.Die();
     }
 }

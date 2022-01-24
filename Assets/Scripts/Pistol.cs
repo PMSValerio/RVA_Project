@@ -4,6 +4,7 @@ public class Pistol : Weapon {
     public GameObject bulletPre;
 
     [SerializeField] private AudioSource shootAudio;
+    [SerializeField] private AudioSource emptyAudio;
 
     private bool lastAction;
     public float cooldown = 2f;
@@ -52,6 +53,9 @@ public class Pistol : Weapon {
                 bulletObj.transform.position = transform.position + transform.forward;
                 bulletObj.transform.forward = transform.forward;
             }
+        }
+        else if (ammo <= 0 && action && !lastAction) {
+            emptyAudio.Play();
         }
 
         lastAction = action;

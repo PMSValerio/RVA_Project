@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour {
     public UIOverlay Overlay { get; private set; } // UI Overlay Singleton
 
     [SerializeField] private AudioSource tensionAudio;
+    [SerializeField] private AudioSource completeAudio;
     [SerializeField] private Material tensionSkybox;
+    [SerializeField] private Material completeSkybox;
     private Material previousSkybox;
 
     private const int maxLevel = 3;
@@ -173,7 +175,8 @@ public class GameManager : MonoBehaviour {
 
     public void TensionDown() {
         tensionAudio.Stop();
-        RenderSettings.skybox = previousSkybox;
+        completeAudio.Play();
+        RenderSettings.skybox = completeSkybox;
     }
 
     //

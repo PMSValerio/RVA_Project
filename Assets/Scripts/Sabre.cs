@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sabre : Weapon {
     
     bool swing;
-    float swingThresh = 0.6f;
+    float swingThresh = 0.4f;
 
     TrailRenderer trail;
     Gradient grNeutral;
@@ -13,8 +13,13 @@ public class Sabre : Weapon {
 
     Vector3 tip;
 
+    [SerializeField] private AudioSource swingAudio;
+    bool playswing;
+
     public override void Start() {
         base.Start();
+
+        playswing = true;
 
         ammoMax = -1; // infinite
         
@@ -42,12 +47,17 @@ public class Sabre : Weapon {
         tip = newtip;
 
         if (swing) {
+            if (playswing) {
+                swingAudio.Play();
+            }
+            playswing = false;
             trail.time = 0.15f;
             trail.colorGradient = grSwing;
         }
         else {
             trail.time = 0.02f;
             trail.colorGradient = grNeutral;
+            playswing = true;
         }
     }
 

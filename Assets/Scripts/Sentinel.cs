@@ -79,7 +79,6 @@ public class Sentinel : Enemy
                 if (Vector3.Distance(transform.position, detPos) < 0.05f) {
                     float pz = GameManager.Instance.Player.transform.position.z;
                     if (Mathf.Abs(transform.position.z - pz) < proximity || transform.position.z > pz) state = State.ROTATE;
-                    Debug.Log("Detach");
                 }
                 else {
                     float step =  detSpeed * Time.deltaTime;
@@ -113,6 +112,7 @@ public class Sentinel : Enemy
 
                 if (Vector3.Distance(transform.position, dst) < 0.5f) {
                     state = State.STALK;
+                    timebomb.Play();
                 }
                 transform.LookAt(GameManager.Instance.Player.transform);
             break;
@@ -130,6 +130,7 @@ public class Sentinel : Enemy
                 if (speed == 0) break;
                 holdTimer += Time.deltaTime;
                 if (holdTimer >= boomTime) {
+                    timebomb.Stop();
                     Blow();
                     holdTimer = 0;
                 }
@@ -141,5 +142,10 @@ public class Sentinel : Enemy
         GameManager.Instance.DamagePlayer(power);
         // TODO: Explosion Animation
         Die();
+    }
+
+    protected override void Die() {
+        AudioSource.PlayClipAtPoint(boom,transform.position,0.8f);
+        base.Die();
     }
 }

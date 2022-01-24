@@ -13,6 +13,9 @@ public class Enemy : MonoBehaviour {
 
     public GameObject ammoPre;
 
+    [SerializeField] protected AudioSource timebomb;
+    [SerializeField] protected AudioClip boom;
+
     protected virtual void Start() {
         
     }

@@ -128,11 +128,9 @@ public class ControllerParent : MonoBehaviour {
 
     private void AcquiredWeapon(int index) {
         GameManager.Instance.Overlay.SetWeaponAcquired(weapons[index].GetComponent<Weapon>().weaponName);
-        Debug.Log("Acquired "+ weapons[index].GetComponent<Weapon>().weaponName);
     }
 
     private void AcquiredAmmo(int weapon, int ammo) {
         GameManager.Instance.Overlay.SetAmmoAcquired(weapon, ammo);
-        Debug.Log("Ammo for "+weapon+", ammount "+ ammo);
     }
 }
