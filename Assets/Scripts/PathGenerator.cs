@@ -19,7 +19,9 @@ public class PathGenerator : MonoBehaviour {
     }
 
     private void GeneratePath() {
-        Transform previousBridge = GameObject.Find("Bridge").transform;
+        GameObject prevBridge = GameObject.Find("Bridge");
+        //prevBridge.GetComponent<NavMeshSurface>().BuildNavMesh();
+        Transform previousBridge = prevBridge.transform;
 
         int previousDirection = 1;
 
@@ -58,20 +60,16 @@ public class PathGenerator : MonoBehaviour {
             
             previousBridge = Instantiate(bridge, nextPosition, Quaternion.identity, transform).transform;
             previousBridge.transform.localScale = new Vector3(newScale.x, newScale.y, newScale.z);
+            //previousBridge.GetComponent<NavMeshSurface>().BuildNavMesh();
             // Rotate if newBridge will be sideways
             if (newDirection != 1) previousBridge.Rotate(Vector3.up, 90);
             
             previousDirection = newDirection;
         }
-        
+
+        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
         // Spawn Goal
         SpawnGoal(previousDirection, previousBridge);
-        Invoke(nameof(AuxBuildNavMesh), 3.0f);
-    }
-
-    private void AuxBuildNavMesh() {
-        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
-        Debug.Log("Navmesh built");
     }
 
     private void SpawnGoal(int direction, Transform bridge) {

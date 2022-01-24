@@ -11,22 +11,6 @@ public class Platform : MonoBehaviour {
         sourcePosition = transform.position;
     }
 
-    private void Start() {
-        destinationPosition = GameObject.Find("Goal").transform.position;
-        Debug.Log(destinationPosition);
-        
-        SetDestinationToGoal(true);
-    }
-
-    private void AuxSetPathCheckpoints() {
-        Debug.Log(GameManager.Instance.NavMeshAgent.path.corners.Length);
-        if (GameManager.Instance.NavMeshAgent.path.corners.Length == 1) {
-            GameManager.Instance.NavMeshAgent.ResetPath();
-        }
-        GameManager.Instance.NavMeshAgent.SetDestination(destinationPosition);
-        GameManager.Instance.SetPathCheckpoints(GameManager.Instance.NavMeshAgent.path.corners);
-    }
-
     private void Update() {
         if (GameManager.Instance.NavMeshAgent.path.corners.Length == 1) {
             GameManager.Instance.StopNavMeshAgent();    
@@ -34,10 +18,8 @@ public class Platform : MonoBehaviour {
         
         /*
         if (GameManager.Instance.GetPathCheckpoints() is null || GameManager.Instance.NavMeshAgent.path.corners.Length > GameManager.Instance.GetPathCheckpoints().Length) {
-            Invoke(nameof(AuxSetPathCheckpoints), 1f);
-        }
-        */
-        AuxSetPathCheckpoints();
+            GameManager.Instance.SetPathCheckpoints(GameManager.Instance.NavMeshAgent.path.corners);
+        }*/
         
         if (GameManager.Instance.GetIsGamePaused()) {
             return;
@@ -59,11 +41,6 @@ public class Platform : MonoBehaviour {
     }
 
     public void SetDestinationToGoal(bool toGoal) {
-        if (toGoal) {
-            GameManager.Instance.SetIsOnFirstStage(true);
-            GameManager.Instance.NavMeshAgent.SetDestination(destinationPosition);
-            return;
-        }
         GameManager.Instance.SetIsOnFirstStage(false);
         GameManager.Instance.NavMeshAgent.SetDestination(sourcePosition);
     }

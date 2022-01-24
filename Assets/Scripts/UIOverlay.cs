@@ -63,7 +63,11 @@ public class UIOverlay : MonoBehaviour {
         }
         else {
             enemiesAliveText.gameObject.transform.parent.gameObject.GetComponentInChildren<blink>()._blinking = false;
-            enemiesAliveText.text = value + "\nenemies remaining";
+            if (value > 1) {
+                enemiesAliveText.text = value + "\nenemies remaining";
+            } else {
+                enemiesAliveText.text = value + "\nenemy remaining";
+            }
         }
         
     }
