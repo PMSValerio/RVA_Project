@@ -46,6 +46,11 @@ public class WeaponController : ControllerParent {
 
         p1 = weapons[current].transform.parent.InverseTransformPoint(p1);
         p2 = weapons[current].transform.parent.InverseTransformPoint(p2);
-        wep.Manipulate(p1,r1,p2,r2);
+        if (GameManager.Instance.righthand) {
+            wep.Manipulate(p1,r1,p2,r2);
+        }
+        else {
+            wep.Manipulate(p2,r2,p1,r1);
+        }
     }
 }

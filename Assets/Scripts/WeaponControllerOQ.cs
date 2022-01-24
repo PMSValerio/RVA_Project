@@ -27,7 +27,12 @@ public class WeaponControllerOQ : ControllerParent {
         Quaternion r2 = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
 
         Weapon wep = weapons[current].GetComponent<Weapon>();
-        wep.Manipulate(transform.InverseTransformPoint(p1),r1,transform.InverseTransformPoint(p2),r2);
+        if (GameManager.Instance.righthand) {
+            wep.Manipulate(transform.InverseTransformPoint(p1),r1,transform.InverseTransformPoint(p2),r2);
+        }
+        else {
+            wep.Manipulate(transform.InverseTransformPoint(p2),r2,transform.InverseTransformPoint(p1),r1);
+        }
         wep.action = canAction && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger)>0;
     }
 }
