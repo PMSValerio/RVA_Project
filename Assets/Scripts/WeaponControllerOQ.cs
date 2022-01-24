@@ -1,10 +1,13 @@
 using UnityEngine;
 
 public class WeaponControllerOQ : ControllerParent {
+
+    bool last_button;
     
     // Start is called before the first frame update
     private new void Start() {
         base.Start();
+        last_button = false;
     }
 
     // Update is called once per frame
@@ -14,11 +17,16 @@ public class WeaponControllerOQ : ControllerParent {
         OVRInput.Update();
         //transform.Find("OVRCameraRig").position = transform.position;
         if (Time.timeScale == 0) return;
-        if (OVRInput.GetDown(OVRInput.Button.Two)) {
+        if (!last_button && OVRInput.Get(OVRInput.Button.Two)) {
             SwitchWeapon(current+1);
+            last_button = true;
         }
-        else if (OVRInput.GetDown(OVRInput.Button.One)) {
+        else if (!last_button && OVRInput.Get(OVRInput.Button.One)) {
             SwitchWeapon(current-1);
+            last_button = true;
+        }
+        else {
+            last_button = false;
         }
 
         Vector3 p1 = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch) + transform.position;
