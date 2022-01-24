@@ -48,8 +48,16 @@ public class Sentinel : Enemy
 
         base.Start();
         //m_Material = GetComponent<Renderer>().material;m.forward;
+        m_Material = new Material[]{
+            transform.Find("Eye").gameObject.GetComponent<Renderer>().material, 
+            transform.Find("Left Eye").gameObject.GetComponent<Renderer>().material, 
+            transform.Find("Right Eye").gameObject.GetComponent<Renderer>().material
+        };
         detPos = transform.position + transform.forward;
         state = State.OFF;
+        foreach (Material material in m_Material) {
+            material.DisableKeyword("_EMISSION");
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +70,9 @@ public class Sentinel : Enemy
                     holdLim = Random.Range(0.5f, 2f);
                     hp = tensionHP;
                     nextState = State.DETACH;
+                    foreach (Material material in m_Material) {
+                        material.EnableKeyword("_EMISSION");
+                    }
                 }
                 break;
             case State.DETACH:

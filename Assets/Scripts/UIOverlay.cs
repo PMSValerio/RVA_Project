@@ -55,18 +55,21 @@ public class UIOverlay : MonoBehaviour {
     public void SetEnemiesAlive(int value) {
         if (GameManager.Instance.GetIsOnFirstStage()) {
             if (value > 1) {
+                enemiesAliveText.gameObject.transform.parent.gameObject.GetComponentInChildren<blink>()._blinking = false;
                 enemiesAliveText.text = value + "\nenemies remaining";
             } else {
                 TextToBossFight();
             }
         }
         else {
+            enemiesAliveText.gameObject.transform.parent.gameObject.GetComponentInChildren<blink>()._blinking = false;
             enemiesAliveText.text = value + "\nenemies remaining";
         }
         
     }
 
     public void TextToBossFight() {
+        enemiesAliveText.gameObject.transform.parent.gameObject.GetComponentInChildren<blink>()._blinking = true;
         enemiesAliveText.text = "boss fight";
     }
 
@@ -84,6 +87,7 @@ public class UIOverlay : MonoBehaviour {
         }
         GameManager.Instance.SetHasGameStarted(false);
 
+        GameManager.Instance.TensionDown();
         levelCompletedText.gameObject.SetActive(true);
         StartCoroutine(FadeText(levelCompletedText));
         Invoke(nameof(AuxToggleFader), 4f);

@@ -1,0 +1,34 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.PlayerLoop;
+
+public class Boss : Enemy {
+    private void Awake() {
+        isBoss = true;
+        droprate = 1.0f;
+        hp = 25 * GameManager.Instance.GetLevel() * GameManager.Instance.GetLevel();
+    }
+
+    private void Update() {
+        transform.LookAt(GameManager.Instance.Player.transform);
+    }
+    
+    protected override void Die() {
+        StartCoroutine(WaitTillDestroy());
+    }
+
+    private IEnumerator WaitTillDestroy() {
+        yield return new WaitForSeconds(0.25f);
+        
+        GameManager.Instance.DecrementNumEnemies();
+
+        Drops();
+        
+        // If the player is already on the second stage and there are no more enemies alive, then that level is completed
+        if (!GameManager.Instance.GetIsOnFirstStage() && GameManager.Instance.GetNumEnemies() == 0) {
+            GameManager.Instance.Overlay.ToggleOnLevelCompleted();
+        }
+
+        Destroy(gameObject.transform.parent.gameObject);
+    }
+}

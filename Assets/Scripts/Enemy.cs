@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
     private bool isDead;
 
     protected float droprate = 1;//0.10f;
+    protected bool isBoss = false;
 
     public GameObject ammoPre;
 
@@ -28,15 +29,27 @@ public class Enemy : MonoBehaviour {
     // Enemy is hit
     public void Damage(int damage) {
         // Don't do any damage if the game is "paused"
-        if ((GameManager.Instance.NavMeshAgent.speed == 0.0f && GameManager.Instance.GetIsOnFirstStage()) || isDead) return;
+        if (((GameManager.Instance.NavMeshAgent.speed == 0.0f && GameManager.Instance.GetIsOnFirstStage()) || isDead) && !isBoss) return;
+        
+        gameObject.GetComponent<Renderer>().material.EnableKeyword("_HIT");
+        gameObject.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        transform.Find("Eye").gameObject.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        transform.Find("Left Eye").gameObject.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        transform.Find("Right Eye").gameObject.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        Invoke(nameof(TurnOffHit), 0.2f);
         
         // Decrease health points
         hp -= damage;
         // If health points are less than or equal to 0, enemy should die
         if (hp <= 0) {
             hp = 0;
-            Die();
+            Invoke(nameof(Die), 0.15f);
         }
+    }
+
+    private void TurnOffHit() {
+        gameObject.GetComponent<Renderer>().material.DisableKeyword("_HIT");
+        gameObject.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
     }
 
     // Destroy itself
@@ -75,5 +88,9 @@ public class Enemy : MonoBehaviour {
             else if (sp>16) sp = 16;
             ammo.GetComponent<Ammo>().speed = sp;
         }
+    }
+    
+    public int GetHP() {
+        return hp;
     }
 }

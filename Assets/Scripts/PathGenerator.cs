@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.ProBuilder;
 
 public class PathGenerator : MonoBehaviour {
 
@@ -68,22 +69,28 @@ public class PathGenerator : MonoBehaviour {
 
     private void SpawnGoal(int direction, Transform bridge) {
         Vector3 target = default;
+        Quaternion target_rotation = goal.transform.rotation;
+        // bridge.localScale.z/2
         switch (direction) {
             // Left path
             case 0:
-                target = new Vector3(bridge.transform.position.x - 10 * bridge.localScale.z/2, bridge.transform.position.y + goalHeight, bridge.transform.position.z);
+                target_rotation *= Quaternion.Euler(0f, -90f, 0f);
+                target = new Vector3(bridge.transform.position.x - 10 * bridge.localScale.z, bridge.transform.position.y + goalHeight, bridge.transform.position.z);
                 break;
             // Front path
             case 1:
-                target = new Vector3(bridge.transform.position.x, bridge.transform.position.y + goalHeight, bridge.transform.position.z + 10*bridge.localScale.z/2);
+                target = new Vector3(bridge.transform.position.x, bridge.transform.position.y + goalHeight, bridge.transform.position.z + 10*bridge.localScale.z);
                 break;
             // Right path
             case 2:
-                target = new Vector3(bridge.transform.position.x + 10*bridge.localScale.z/2, bridge.transform.position.y + goalHeight, bridge.transform.position.z);
+                target_rotation *= Quaternion.Euler(0f, 90f, 0f);
+                target = new Vector3(bridge.transform.position.x + 10*bridge.localScale.z, bridge.transform.position.y + goalHeight, bridge.transform.position.z);
                 break;
         }
-        
-        Instantiate(goal, target, Quaternion.identity, transform).name = goal.name;
+
+        GameObject goalGameObject = Instantiate(goal, target, target_rotation, transform);
+        goalGameObject.name = goal.name;
+        goalGameObject.transform.GetChild(Random.Range(1, 3)).gameObject.SetActive(false);
     }
     
     private int GetNewDirection(int previousDirection) {

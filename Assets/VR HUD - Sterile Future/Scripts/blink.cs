@@ -22,8 +22,11 @@ public class blink : MonoBehaviour
     void Update()
     {
 		if(_blinking){
-			float _blinkerAlpha = Mathf.PingPong(_speed * Time.time, 1);
+			float _blinkerAlpha = Mathf.PingPong(_speed * Time.time, 0.2f);
 			_color = new Color(_color.r, _color.g, _color.b, _blinkerAlpha);
+			_image.color = _color;
+		} else {
+			_color = new Color(_color.r, _color.g, _color.b, 0);
 			_image.color = _color;
 		}
     }

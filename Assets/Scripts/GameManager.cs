@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private AudioSource tensionAudio;
     [SerializeField] private Material tensionSkybox;
+    private Material previousSkybox;
 
     private const int maxLevel = 3;
     
@@ -165,8 +166,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void TensionUp() {
+        previousSkybox = RenderSettings.skybox;
         tensionAudio.Play();
         RenderSettings.skybox = tensionSkybox;
+    }
+
+    public void TensionDown() {
+        tensionAudio.Stop();
+        RenderSettings.skybox = previousSkybox;
     }
 
     //
