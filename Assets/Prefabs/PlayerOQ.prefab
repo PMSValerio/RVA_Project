@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244773654938520954}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -93,7 +93,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 244773654938520954}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -115,11 +115,7 @@ MonoBehaviour:
   - {fileID: 6767124374343854201, guid: ee45202d72ab53c5a895d2a598c71a21, type: 3}
   - {fileID: 9073651565954035848, guid: 2153aa094cd9343a9864df4ab23a6c02, type: 3}
   - {fileID: 3018348318791338049, guid: ca1cc3453ad8f64e1b3a0a09f3b0311b, type: 3}
-  weaponsHUD:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  weapons: []
 --- !u!20 &579661206
 Camera:
   m_ObjectHideFlags: 0

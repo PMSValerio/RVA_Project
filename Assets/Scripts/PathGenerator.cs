@@ -1,6 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 using UnityEngine.ProBuilder;
+using Random = UnityEngine.Random;
 
 public class PathGenerator : MonoBehaviour {
 
@@ -61,10 +64,14 @@ public class PathGenerator : MonoBehaviour {
             previousDirection = newDirection;
         }
         
-        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
-        
         // Spawn Goal
         SpawnGoal(previousDirection, previousBridge);
+        Invoke(nameof(AuxBuildNavMesh), 3.0f);
+    }
+
+    private void AuxBuildNavMesh() {
+        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
+        Debug.Log("Navmesh built");
     }
 
     private void SpawnGoal(int direction, Transform bridge) {
