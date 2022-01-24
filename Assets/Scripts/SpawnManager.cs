@@ -18,13 +18,12 @@ public class SpawnManager : MonoBehaviour {
         towerSpawnProbability = GameManager.Instance.GetTowerSpawnProbability();
         
         if (tower) {
-            Invoke(nameof(SpawnTowers), 3f);
+            Invoke(nameof(SpawnTowers), 0.1f);
         }
         else Debug.Log("Tower Prefab not defined");
     }
 
     private void SpawnTowers() {
-        Debug.Log("Spawning towers");
         Vector3 previousCheckpoint = GameManager.Instance.GetPathCheckpoints()[0];
 
         int numBridges = GameManager.Instance.GetPathCheckpoints().Length - 1;

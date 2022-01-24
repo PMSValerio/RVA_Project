@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour {
     private void Start() {
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
-        NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
+        SetNavMeshPath();
         Overlay = GameObject.Find("HUD").GetComponent<UIOverlay>();
         
         NavMeshAgent.updateRotation = false;
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour {
     }
     
     public void SetPathCheckpoints(Vector3[] value) {
-        Debug.Log("PathCheckpoints set");
+        Debug.Log("PathCheckpoints set: " + value.Length);
         pathCheckpoints = value;
     }
 
@@ -272,7 +272,7 @@ public class GameManager : MonoBehaviour {
             case 2:
                 towerSpawnProbability = 0.02f;
                 droneSpawnProbability = 0.01f;
-                numBridges = 10;
+                numBridges = 1;
                 break;
             case 3:
                 towerSpawnProbability = 0.03f;
@@ -314,17 +314,28 @@ public class GameManager : MonoBehaviour {
                 break;
         }
     }
+
+    private void SetNavMeshPath() {
+        SetIsOnFirstStage(true);
+        NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
+        NavMeshHit hit;
+        NavMesh.SamplePosition(GameObject.Find("Goal").transform.position, out hit, 1000f, NavMesh.AllAreas);
+        NavMeshPath path = new NavMeshPath();
+        NavMeshAgent.CalculatePath(hit.position, path);
+        NavMeshAgent.path = path;
+        //NavMeshAgent.SetDestination(hit.position);
+        SetPathCheckpoints(NavMeshAgent.path.corners);
+        NavMeshAgent.updateRotation = false;
+    }
     
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
         pathCheckpoints = null;
         numEnemies = 0;
         
         playerHP = playerHPCap;
-        Player.GetComponent<ControllerParent>().InitializeHUD();
-        NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
         Overlay = GameObject.Find("HUD").GetComponent<UIOverlay>();
-        
-        NavMeshAgent.updateRotation = false;
+        Player.GetComponent<ControllerParent>().InitializeHUD();
+        SetNavMeshPath();
         
         if (level != -1 && level != maxLevel+1) {
             Overlay.ToggleOnLevelStarting(1.5f, 0.5f);
