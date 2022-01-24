@@ -45,6 +45,9 @@ public class Sentinel : Enemy
         speed = 8.0f;
         offsetRot = Random.rotation;
         offsetVec = offsetRot * Vector3.forward;
+        if (offsetVec.y >= -0.4) {
+            offsetVec = new Vector3(offsetVec.x,-offsetVec.y,offsetVec.z);
+        }
 
         base.Start();
         //m_Material = GetComponent<Renderer>().material;m.forward;

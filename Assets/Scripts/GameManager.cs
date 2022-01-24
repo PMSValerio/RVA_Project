@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
     public NavMeshAgent NavMeshAgent { get; private set; } // NavMeshAgent Singleton
     public UIOverlay Overlay { get; private set; } // UI Overlay Singleton
 
+    public bool righthand;
+
     [SerializeField] private AudioSource tensionAudio;
     [SerializeField] private AudioSource completeAudio;
     [SerializeField] private Material tensionSkybox;
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        righthand = true;
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
         SetNavMeshPath();
