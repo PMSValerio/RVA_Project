@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private AudioSource tensionAudio;
     [SerializeField] private AudioSource completeAudio;
+    [SerializeField] private AudioSource neutralMusic;
+    [SerializeField] private AudioSource tensionMusic;
+    private AudioSource lastMusic;
     [SerializeField] private Material tensionSkybox;
     [SerializeField] private Material completeSkybox;
     private Material previousSkybox;
@@ -58,6 +61,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        lastMusic = neutralMusic;
+        lastMusic.Play();
         righthand = true;
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
@@ -99,6 +104,16 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SetIsGamePaused(bool value, float fadeTime = 0.5f, float solidTime = 0.5f) {
+        if (value) {
+            if (neutralMusic.isPlaying) lastMusic = neutralMusic;
+            else if (tensionMusic.isPlaying) lastMusic = tensionMusic;
+            else lastMusic = null;
+
+            if (lastMusic) lastMusic.Pause();
+        }
+        else {
+            if (lastMusic) lastMusic.UnPause();
+        }
         StartCoroutine(TeleportFade(value, fadeTime, solidTime));
     }
 
@@ -179,12 +194,16 @@ public class GameManager : MonoBehaviour {
     public void TensionUp() {
         previousSkybox = RenderSettings.skybox;
         tensionAudio.Play();
+        neutralMusic.Stop();
+        tensionMusic.Play();
         RenderSettings.skybox = tensionSkybox;
     }
 
     public void TensionDown() {
         tensionAudio.Stop();
         completeAudio.Play();
+        neutralMusic.Stop();
+        tensionMusic.Stop();
         RenderSettings.skybox = completeSkybox;
     }
 
@@ -220,6 +239,8 @@ public class GameManager : MonoBehaviour {
     */
 
     private void DiePlayer() {
+        neutralMusic.Stop();
+        tensionMusic.Stop();
         gameObject.GetComponent<DamageEffect>().dieAnim = true;
         Player.GetComponent<ControllerParent>().SetCanFire(false);
         PauseAll(true);
@@ -346,6 +367,8 @@ public class GameManager : MonoBehaviour {
         Player.GetComponent<ControllerParent>().InitializeHUD();
         SetNavMeshPath();
         
+        neutralMusic.Play();
+        tensionMusic.Stop();
         if (level != -1 && level != maxLevel+1) {
             Overlay.ToggleOnLevelStarting(1.5f, 0.5f);
             SetIsGamePaused(false);

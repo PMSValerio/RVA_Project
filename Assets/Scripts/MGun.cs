@@ -21,7 +21,7 @@ public class MGun : Weapon {
 
         auxPlay = true;
 
-        ammoMax = 1000;
+        ammoMax = 300;
         ResetAmmo();
 
         pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();

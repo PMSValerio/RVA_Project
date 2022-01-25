@@ -53,8 +53,14 @@ public class Bow : Weapon
                 }
             }
             else {
-                if (action) {
+                if (action && ammo > 0) {
                     readied = true;
+                }
+                if (ammo<=0) {
+                    arrow.gameObject.SetActive(false);
+                }
+                else {
+                    arrow.gameObject.SetActive(true);
                 }
             }
         }
@@ -72,6 +78,7 @@ public class Bow : Weapon
     }
 
     void Fire(bool misfire) {
+        ammo--;
         if (misfire) {
         }
         else {

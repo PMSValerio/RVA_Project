@@ -112,16 +112,25 @@ public class ControllerParent : MonoBehaviour {
     }
 
     public void AddAmmo(int ix, int level) {
-        if (weapons[2].GetComponent<Weapon>().acquired) ix = 1; // shamelessly hardcoding against regaining sabre ammo
+        if (weapons[2].GetComponent<Weapon>().acquired) {
+            ix = Random.Range(0,3); // shamelessly hardcoding against regaining sabre ammo
+            if (ix==2) ix = 3;
+        }
 
-        float ammo = (weapons[ix].GetComponent<Weapon>().ammoMax / 10) * level;
+        int divisor;
+        if (weapons[ix].GetComponent<Weapon>().acquired) {
+            divisor = 50;
+        }
+        else {
+            divisor = 10;
+        }
+        float ammo = (weapons[ix].GetComponent<Weapon>().ammoMax / divisor) * level;
+        if (ammo == 0) ammo = level;
         if (weapons[ix].GetComponent<Weapon>().AddAmmo((int)(ammo))) {
-            // TODO: display acquired message
             
             AcquiredWeapon(ix);
         }
         else {
-            // TODO: display regular ammo message
             AcquiredAmmo(ix, (int) ammo);
         }
     }
