@@ -10,6 +10,9 @@ public class Bow : Weapon
     Transform bow;
     Transform arrow;
 
+    LineRenderer stringUp;
+    LineRenderer stringDown;
+    
     float cooldown = 1.5f;
     float cooltimer = 0f;
 
@@ -25,6 +28,12 @@ public class Bow : Weapon
         bow = transform.Find("Bow");
         arrow = transform.Find("Arrow");
         pullStr = 0;
+
+        stringUp = transform.Find("String1").gameObject.GetComponent<LineRenderer>();
+        stringDown = transform.Find("String2").gameObject.GetComponent<LineRenderer>();
+
+        stringUp.SetPosition(0,bow.localPosition+bow.up*1.5f);
+        stringDown.SetPosition(0,bow.position+bow.up*(-1.5f));
 
         ammoMax = 15;
         ResetAmmo();
@@ -116,10 +125,12 @@ public class Bow : Weapon
             bow.rotation = r2;
         }
         if (pulling) {
-            transform.Find("String").localPosition = arrow.localPosition;
+            stringUp.SetPosition(1,arrow.localPosition);
+            stringDown.SetPosition(1,arrow.localPosition);
         }
         else {
-            transform.Find("String").localPosition = bow.localPosition;
+            stringUp.SetPosition(1,bow.localPosition);
+            stringDown.SetPosition(1,bow.localPosition);
         }
     }
 }
