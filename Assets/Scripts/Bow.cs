@@ -29,11 +29,11 @@ public class Bow : Weapon
         arrow = transform.Find("Arrow");
         pullStr = 0;
 
-        stringUp = transform.Find("String1").gameObject.GetComponent<LineRenderer>();
-        stringDown = transform.Find("String2").gameObject.GetComponent<LineRenderer>();
+        stringUp = transform.Find("Bow/String1").gameObject.GetComponent<LineRenderer>();
+        stringDown = transform.Find("Bow/String2").gameObject.GetComponent<LineRenderer>();
 
-        stringUp.SetPosition(0,bow.localPosition+bow.up*1.5f);
-        stringDown.SetPosition(0,bow.position+bow.up*(-1.5f));
+        stringUp.SetPosition(0,Vector3.up*1.7f);
+        stringDown.SetPosition(0,Vector3.up*(-1.7f));
 
         ammoMax = 15;
         ResetAmmo();
@@ -125,12 +125,14 @@ public class Bow : Weapon
             bow.rotation = r2;
         }
         if (pulling) {
-            stringUp.SetPosition(1,arrow.localPosition);
-            stringDown.SetPosition(1,arrow.localPosition);
+            float dist = (arrow.localPosition - bow.localPosition).magnitude;
+            Vector3 point = new Vector3(0,0,-dist);
+            stringUp.SetPosition(1,point);
+            stringDown.SetPosition(1,point);
         }
         else {
-            stringUp.SetPosition(1,bow.localPosition);
-            stringDown.SetPosition(1,bow.localPosition);
+            stringUp.SetPosition(1,Vector3.zero);
+            stringDown.SetPosition(1,Vector3.zero);
         }
     }
 }
