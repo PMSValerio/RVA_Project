@@ -34,9 +34,15 @@ public class ControllerParent : MonoBehaviour {
         InitializeHUD();
     }
 
+    private bool ableToPause = true;
+    public void SetAbleToPause() {
+        ableToPause = true;
+    }
+    
     protected void Update() {
-        if (Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
+        if (ableToPause && Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted() && !GameManager.Instance.Overlay.AnyImportantMessageOn()) {
         //if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
+            ableToPause = false;
             GameManager.Instance.Overlay.ToggleOnPause();
             GameManager.Instance.Overlay.ToggleOffLevelMessages();
         }

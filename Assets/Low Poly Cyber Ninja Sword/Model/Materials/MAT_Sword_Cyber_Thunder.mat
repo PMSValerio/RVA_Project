@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MAT_Sword_Cyber_Thunder
-  m_Shader: {fileID: 4800000, guid: 0e9d5a909a1f7e84882a534d0d11e49f, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: afd6eae117e4577498b8d90dafa8f115, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -53,6 +53,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_035de301aca149b3a496d9d8f2e10897_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c8876b4682eb3f248a043dfbc6ed9d29, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0ebfff758f0d4ff4a76391ffed0a440f_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 4586fb967d0126a42a39ce17475624be, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3a936816c59e41b587f50e191c4cd709_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 4da7701a1b0584547aa1948866d994ad, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5502b67715254f319cdc3aed88f50801_Texture_1:
+        m_Texture: {fileID: 2800000, guid: fd8849ec102c5c14a8335af68cf879a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_cdf788ceabd145f1ac7b985ebe32d4be_Texture_1:
+        m_Texture: {fileID: 2800000, guid: d47b6b18f29c0f34ea241c94cfdc2f5e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
