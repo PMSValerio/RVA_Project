@@ -139,8 +139,10 @@ public class GameManager : MonoBehaviour {
         //yield return new WaitForSeconds(0.3f);
         if (wasAgentRunning) {
             ResumeNavMeshAgent();
+            Debug.Log("A");
         }
         isGamePaused = false;
+        Player.GetComponent<ControllerParent>().SetAbleToPause();
         Player.GetComponent<ControllerParent>().SwitchWeapon(previousCurrentWeaponIndex);
     }
 
@@ -167,6 +169,7 @@ public class GameManager : MonoBehaviour {
     
     public void DecrementNumEnemies() {
         numEnemies--;
+        Debug.Log("Enemies: " + numEnemies);
         Overlay.SetEnemiesAlive(numEnemies);
     }
 
@@ -365,6 +368,7 @@ public class GameManager : MonoBehaviour {
         playerHP = playerHPCap;
         Overlay = GameObject.Find("HUD").GetComponent<UIOverlay>();
         Player.GetComponent<ControllerParent>().InitializeHUD();
+        Player.GetComponent<ControllerParent>().SetAbleToPause();
         SetNavMeshPath();
         
         neutralMusic.Play();

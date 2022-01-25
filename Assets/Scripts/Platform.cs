@@ -6,9 +6,15 @@ public class Platform : MonoBehaviour {
     private Vector3 destinationPosition; // Platform's destination position
 
     private bool bossFight = false;
+
+    private GameObject boss;
     
     private void Awake() {
         sourcePosition = transform.position;
+    }
+
+    private void Start() {
+        boss = GameObject.Find("Goal");
     }
 
     private void Update() {
@@ -25,7 +31,7 @@ public class Platform : MonoBehaviour {
             return;
         }
 
-        if (!bossFight && GameManager.Instance.GetIsOnFirstStage()) {
+        if (!bossFight && GameManager.Instance.GetIsOnFirstStage() && boss != null) {
             if (!GameManager.Instance.NavMeshAgent.pathPending) {
                 if (GameManager.Instance.NavMeshAgent.remainingDistance <= GameManager.Instance.NavMeshAgent.stoppingDistance) {
                     if (!GameManager.Instance.NavMeshAgent.hasPath || GameManager.Instance.NavMeshAgent.velocity.sqrMagnitude == 0f) {

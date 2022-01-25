@@ -16,10 +16,12 @@ public class UIOverlay : MonoBehaviour {
 
     private Vector3 playerPosition;
 
+    private Boss boss;
+
     private float bossTimer = 10f;
     // Start is called before the first frame update
     void Start() {
-        
+        boss = GameObject.Find("Goal").GetComponentInChildren<Boss>();
     }
 
     // Update is called once per frame
@@ -40,17 +42,20 @@ public class UIOverlay : MonoBehaviour {
     }
     
     public void ToggleOnEnemiesAlive() {
+        Debug.Log("B");
         if (inGameHUD != null) {
+            Debug.Log("C");
             inGameHUD.SetActive(true);
             StartCoroutine(ScaleUp(inGameHUD.transform, new Vector3(0.3f, 0.3f, 0.3f), 0.02f));
         }
         if (inGameMessages != null) {
+            Debug.Log("D");
             inGameMessages.SetActive(true);
         }
     }
 
     public void ToggleBossTimer(bool value) {
-        if (value) {
+        if (value && !boss.GetIsDead()) {
             TextToBossFight();
             bossTimerText.gameObject.SetActive(true);
             bossTimerText.text = "Time Left:\n" + bossTimer;
@@ -102,6 +107,10 @@ public class UIOverlay : MonoBehaviour {
         
     }
 
+    public bool AnyImportantMessageOn() {
+        return levelCompletedText.isActiveAndEnabled || levelStartingText.isActiveAndEnabled;
+    }
+
     public void TextToBossFight() {
         enemiesAliveText.gameObject.transform.parent.gameObject.GetComponentInChildren<blink>()._blinking = true;
         enemiesAliveText.text = "boss fight";
@@ -134,7 +143,11 @@ public class UIOverlay : MonoBehaviour {
     }
 
     private void InvokeNextLevel() {
-        GameManager.Instance.LoadLevel(GameManager.Instance.GetLevel()+1);
+        if (GameManager.Instance.GetLevel() == GameManager.Instance.GetMaxLevel()) {
+            GameManager.Instance.LoadLevel(-1);
+        } else {
+            GameManager.Instance.LoadLevel(GameManager.Instance.GetLevel()+1);
+        }
     }
 
     public void ToggleFader(float fadeTime = 0.5f, float solidTime = 0.5f) {
@@ -204,6 +217,7 @@ public class UIOverlay : MonoBehaviour {
             text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - (Time.deltaTime / fadeTime));
             yield return null;
         }
+        text.gameObject.SetActive(false);
     }
     
     private IEnumerator ScaleUp(Transform objectTransform, Vector3 scale, float timeScale){

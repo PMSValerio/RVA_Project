@@ -12,6 +12,10 @@ public class Boss : Enemy {
     private void Update() {
         transform.LookAt(GameManager.Instance.Player.transform);
     }
+
+    public bool GetIsDead() {
+        return isDead;
+    }
     
     protected override void Die() {
         if (isDead) return;
@@ -32,6 +36,7 @@ public class Boss : Enemy {
             GameManager.Instance.Overlay.ToggleOnLevelCompleted();
         }
 
+        GameManager.Instance.Overlay.ToggleBossTimer(false);
         Destroy(gameObject.transform.parent.gameObject);
     }
 }
