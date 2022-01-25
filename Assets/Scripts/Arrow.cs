@@ -38,9 +38,9 @@ public class Arrow : MonoBehaviour {
                     col.gameObject.GetComponentInParent<Enemy>().Damage(power);
                 }
                 break;
-            case "Goal":
+            /*case "Goal":
                 Destroy(col.gameObject);
-                break;
+                break;*/
             default:
                 break;
         }

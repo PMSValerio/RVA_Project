@@ -32,9 +32,9 @@ public class PistolBullet : MonoBehaviour {
                     enemy.Damage(power);
                 }
                 break;
-            case "Goal":
+            /*case "Goal":
                 Destroy(col.gameObject);
-                break;
+                break;*/
             default:
                 if (col.gameObject.name.Equals("Platform")) return;
                 break;

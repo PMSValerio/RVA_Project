@@ -31,17 +31,18 @@ public class SpawnManager : MonoBehaviour {
 
         foreach (Vector3 actualCheckpoint in GameManager.Instance.GetPathCheckpoints().Skip(1)) {
             numBridges -= 1;
+            Debug.Log(numBridges);
             // Vertical path
             if (Math.Abs(previousCheckpoint.x - actualCheckpoint.x) < tolerance) {
                 for (float zz = previousCheckpoint.z-cornersOffset; zz < actualCheckpoint.z+cornersOffset; zz++) {
                     for (float xx = previousCheckpoint.x-mapDim; xx < previousCheckpoint.x+mapDim; xx++) {
-                        /*Debug.Log(numBridges);
-                        Debug.Log("Goal " + goal.x + ", " + goal.z);
-                        Debug.Log("Tower " + xx + ", " + zz);*/
-                        if (numBridges == 0 && Mathf.Abs(Mathf.Abs(goal.x)-Mathf.Abs(xx)) < 2 && goal.z >= zz) {
+                        Debug.Log(numBridges);
+                        Debug.Log("GoalA " + goal.x + ", " + goal.z);
+                        Debug.Log("Tower " + xx + ", " + zz);
+                        if (numBridges == 0 && Mathf.Abs(Mathf.Abs(goal.x)-Mathf.Abs(xx)) < 3 && goal.z >= zz) {
                             continue;
                         }
-                        //Debug.Log("Spawning");
+                        Debug.Log("Spawning");
                         if (UnityEngine.Random.Range(0f,1f) < towerSpawnProbability) {
                             Vector3 spawnPosition = new Vector3(xx, 0, zz);
                             
@@ -63,13 +64,13 @@ public class SpawnManager : MonoBehaviour {
                 if (previousCheckpoint.x < actualCheckpoint.x) {
                     for (float xx = previousCheckpoint.x-cornersOffset; xx < actualCheckpoint.x+cornersOffset; xx++) {
                         for (float zz = previousCheckpoint.z-mapDim; zz < previousCheckpoint.z+mapDim; zz++) {
-                            /*Debug.Log(numBridges);
-                            Debug.Log("Goal " + goal.x + ", " + goal.z);
-                            Debug.Log("Tower " + xx + ", " + zz);*/
-                            if (numBridges == 0 && Mathf.Abs(Mathf.Abs(goal.z)-Mathf.Abs(zz)) < 2 && goal.x >= xx) {
+                            Debug.Log(numBridges);
+                            Debug.Log("GoalB " + goal.x + ", " + goal.z);
+                            Debug.Log("Tower " + xx + ", " + zz);
+                            if (numBridges == 0 && Mathf.Abs(Mathf.Abs(goal.z)-Mathf.Abs(zz)) < 3 && goal.x >= xx) {
                                 continue;
                             }
-                            //Debug.Log("Spawning");
+                            Debug.Log("Spawning");
                             if (UnityEngine.Random.Range(0f,1f) < towerSpawnProbability) {
                                 Vector3 spawnPosition = new Vector3(xx, 0, zz);
                             
@@ -90,13 +91,13 @@ public class SpawnManager : MonoBehaviour {
                 else {
                     for (float xx = previousCheckpoint.x+cornersOffset; xx > actualCheckpoint.x-cornersOffset; xx--) {
                         for (float zz = previousCheckpoint.z-mapDim; zz < previousCheckpoint.z+mapDim; zz++) {
-                            /*Debug.Log(numBridges);
-                            Debug.Log("Goal " + goal.x + ", " + goal.z);
-                            Debug.Log("Tower " + xx + ", " + zz);*/
-                            if (numBridges == 0 && Mathf.Abs(Mathf.Abs(goal.z)-Mathf.Abs(zz)) < 2 && goal.x <= xx) {
+                            Debug.Log(numBridges);
+                            Debug.Log("GoalC " + goal.x + ", " + goal.z);
+                            Debug.Log("Tower " + xx + ", " + zz);
+                            if (numBridges == 0 && Mathf.Abs(Mathf.Abs(goal.z)-Mathf.Abs(zz)) < 3 && goal.x <= xx) {
                                 continue;
                             }
-                            //Debug.Log("Spawning");
+                            Debug.Log("Spawning");
                             if (UnityEngine.Random.Range(0f,1f) < towerSpawnProbability) {
                                 Vector3 spawnPosition = new Vector3(xx, 0, zz);
                             

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public NavMeshAgent NavMeshAgent { get; private set; } // NavMeshAgent Singleton
     public UIOverlay Overlay { get; private set; } // UI Overlay Singleton
 
-    public bool righthand;
+    public bool righthand = true;
 
     [SerializeField] private AudioSource tensionAudio;
     [SerializeField] private AudioSource completeAudio;
@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private Material tensionSkybox;
     [SerializeField] private Material completeSkybox;
     private Material previousSkybox;
+    public Vector3 previousPosition;
 
-    private const int maxLevel = 3;
+    private int maxLevel = 3;
     
     private const float runningNavMeshAgentSpeed = 2.0f; // NavMeshAgent speed while moving
 
@@ -58,12 +59,12 @@ public class GameManager : MonoBehaviour {
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+        righthand = true;
     }
 
     private void Start() {
         lastMusic = neutralMusic;
         lastMusic.Play();
-        righthand = true;
         playerHP = playerHPCap;
         Player = GameObject.Find("Player");
         SetNavMeshPath();
@@ -139,7 +140,6 @@ public class GameManager : MonoBehaviour {
         //yield return new WaitForSeconds(0.3f);
         if (wasAgentRunning) {
             ResumeNavMeshAgent();
-            Debug.Log("A");
         }
         isGamePaused = false;
         Player.GetComponent<ControllerParent>().SetAbleToPause();
@@ -169,7 +169,6 @@ public class GameManager : MonoBehaviour {
     
     public void DecrementNumEnemies() {
         numEnemies--;
-        Debug.Log("Enemies: " + numEnemies);
         Overlay.SetEnemiesAlive(numEnemies);
     }
 
@@ -258,6 +257,10 @@ public class GameManager : MonoBehaviour {
         return maxLevel;
     }
 
+    public void SetMaxLevel(int value) {
+        maxLevel = value;
+    }
+
     //
     // NavMeshAgent Speed
     //
@@ -301,16 +304,52 @@ public class GameManager : MonoBehaviour {
     }
 
     private void LevelSettings() {
+        // Easy 1, 2 and 3
+        // Medium 5, 6 and 7
+        // Hard 9, 10 and 11
         switch (level) {
+            // EASY
             case 2:
                 towerSpawnProbability = 0.02f;
                 droneSpawnProbability = 0.01f;
                 numBridges = 1;
                 break;
             case 3:
+                towerSpawnProbability = 0.02f;
+                droneSpawnProbability = 0.01f;
+                numBridges = 2;
+                break;
+            // MEDIUM
+            case 5:
                 towerSpawnProbability = 0.03f;
                 droneSpawnProbability = 0.02f;
                 numBridges = 2;
+                break;
+            case 6:
+                towerSpawnProbability = 0.03f;
+                droneSpawnProbability = 0.02f;
+                numBridges = 3;
+                break;
+            case 7:
+                towerSpawnProbability = 0.04f;
+                droneSpawnProbability = 0.02f;
+                numBridges = 4;
+                break;
+            // HARD
+            case 9:
+                towerSpawnProbability = 0.04f;
+                droneSpawnProbability = 0.03f;
+                numBridges = 5;
+                break;
+            case 10:
+                towerSpawnProbability = 0.05f;
+                droneSpawnProbability = 0.04f;
+                numBridges = 6;
+                break;
+            case 11:
+                towerSpawnProbability = 0.06f;
+                droneSpawnProbability = 0.05f;
+                numBridges = 7;
                 break;
             /*case 4:
                 towerSpawnProbability = 0.02f;

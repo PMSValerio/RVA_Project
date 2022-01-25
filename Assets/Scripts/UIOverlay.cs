@@ -42,14 +42,11 @@ public class UIOverlay : MonoBehaviour {
     }
     
     public void ToggleOnEnemiesAlive() {
-        Debug.Log("B");
         if (inGameHUD != null) {
-            Debug.Log("C");
             inGameHUD.SetActive(true);
             StartCoroutine(ScaleUp(inGameHUD.transform, new Vector3(0.3f, 0.3f, 0.3f), 0.02f));
         }
         if (inGameMessages != null) {
-            Debug.Log("D");
             inGameMessages.SetActive(true);
         }
     }
@@ -118,7 +115,8 @@ public class UIOverlay : MonoBehaviour {
 
     public void ToggleOnLevelStarting(float fadeTime, float screenTime) {
         levelStartingText.gameObject.SetActive(true);
-        levelStartingText.text = "Level " + GameManager.Instance.GetLevel().ToString("D2");
+        //levelStartingText.text = "Level " + (GameManager.Instance.GetLevel()-GameManager.Instance.GetMaxLevel()+3).ToString("D2");
+        levelStartingText.text = "Level " + (GameManager.Instance.GetLevel()-(GameManager.Instance.GetMaxLevel()/4)).ToString("D2");
         StartCoroutine(FadeText(levelStartingText, fadeTime, screenTime));
     }
 
@@ -176,6 +174,7 @@ public class UIOverlay : MonoBehaviour {
     }
     
     private IEnumerator FadeTeleport(float fadeTime = 0.5f, float solidTime = 0.5f) {
+        GameManager.Instance.Player.GetComponent<ControllerParent>().SetCanFire(false);
         // FadeIn Panel
         panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a);
         while (panel.color.a < 1.0f) {
@@ -195,6 +194,7 @@ public class UIOverlay : MonoBehaviour {
             panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, panel.color.a - (Time.deltaTime / fadeTime));
             yield return null;
         }
+        GameManager.Instance.Player.GetComponent<ControllerParent>().SetCanFire(true);
     }
 
     private IEnumerator FadeText(Text text, float fadeTime = 2.0f, float screenTime = 2.0f) {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -23,7 +24,22 @@ public class Boss : Enemy {
         GameManager.Instance.Overlay.ToggleBossTimer(false);
         StartCoroutine(WaitTillDestroy());
     }
+/*
+    private void OnDestroy() {
+        GameManager.Instance.DecrementNumEnemies();
 
+        Drops();
+        
+        // If the player is already on the second stage and there are no more enemies alive, then that level is completed
+        if (!GameManager.Instance.GetIsOnFirstStage() && GameManager.Instance.GetNumEnemies() == 0) {
+            GameManager.Instance.Overlay.ToggleOnLevelCompleted();
+        }
+
+        GameManager.Instance.Overlay.ToggleBossTimer(false);
+        Destroy(gameObject.transform.parent.gameObject);
+    }
+*/
+    
     private IEnumerator WaitTillDestroy() {
         yield return new WaitForSeconds(0.25f);
         
