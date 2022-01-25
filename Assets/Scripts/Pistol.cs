@@ -26,7 +26,7 @@ public class Pistol : Weapon {
     void Update() {
         ApplyPose();
         
-        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position));
+        pointer.SetPosition(0,transform.InverseTransformPoint(transform.position + 0.2f*transform.forward));
 
         var direction = transform.forward;
         RaycastHit hit;
