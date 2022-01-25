@@ -57,6 +57,11 @@ public class ControllerParent : MonoBehaviour {
 
     public void InitializeHUD() {
         weaponsHUD = new[] { GameObject.Find("Pistol Object"), GameObject.Find("MGun Object"), GameObject.Find("Sabre Object"), GameObject.Find("Bow Object")};
+        for (int i = 0; i < weapons.Count; i++) {
+            if (weapons[i].GetComponent<Weapon>().acquired) {
+                weaponsHUD[i].transform.Find("hudSprite-2").GetChild(0).gameObject.SetActive(true);
+            }
+        }
     }
 
     public void SwitchWeapon(int i) {
