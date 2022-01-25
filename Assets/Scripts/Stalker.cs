@@ -100,17 +100,15 @@ public class Stalker : Enemy {
                 }
                 break;
             case State.ROTATE:
-                if (setting == 0) {
-                    Vector3 targetDirection = GameManager.Instance.Player.transform.position - transform.position;
+                Vector3 targetDirection = GameManager.Instance.Player.transform.position - transform.position;
 
-                    float singleStep = rotSpeed * Time.deltaTime;
-                    Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+                float singleStep = rotSpeed * Time.deltaTime;
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
 
-                    transform.rotation = Quaternion.LookRotation(newDirection);
+                transform.rotation = Quaternion.LookRotation(newDirection);
 
-                    if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
-                        state = State.SEEK;
-                    }
+                if (Vector3.Angle(transform.forward,targetDirection) < 0.05f) {
+                    state = State.SEEK;
                 }
                 break;
             case State.SEEK:

@@ -11,7 +11,7 @@ public class MGun : Weapon {
     float soundTimer;
     bool auxPlay;
 
-    int power = 2;
+    int power = 4;
 
     bool showShots;
     float rumble = 0.05f;
@@ -21,7 +21,7 @@ public class MGun : Weapon {
 
         auxPlay = true;
 
-        ammoMax = 300;
+        ammoMax = 500;
         ResetAmmo();
 
         pointer = transform.Find("Pointer").gameObject.GetComponent<LineRenderer>();

@@ -391,7 +391,7 @@ public class GameManager : MonoBehaviour {
         SetIsOnFirstStage(true);
         NavMeshAgent = GameObject.Find("Platform").GetComponent<NavMeshAgent>();
         NavMeshHit hit;
-        NavMesh.SamplePosition(GameObject.Find("Goal").transform.position, out hit, 1000f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(GameObject.Find("Goal").transform.position, out hit, 3000f, NavMesh.AllAreas);
         NavMeshPath path = new NavMeshPath();
         NavMeshAgent.CalculatePath(hit.position, path);
         NavMeshAgent.path = path;

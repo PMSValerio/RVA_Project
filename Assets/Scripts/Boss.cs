@@ -7,7 +7,7 @@ public class Boss : Enemy {
     private void Awake() {
         isBoss = true;
         droprate = 1.0f;
-        hp = 25 * GameManager.Instance.GetLevel() * GameManager.Instance.GetLevel();
+        hp = 25 * (int)Math.Pow(GameManager.Instance.GetLevel()-(GameManager.Instance.GetMaxLevel()/4),2);
     }
 
     private void Update() {

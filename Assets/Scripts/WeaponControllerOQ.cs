@@ -17,11 +17,11 @@ public class WeaponControllerOQ : ControllerParent {
         OVRInput.Update();
         //transform.Find("OVRCameraRig").position = transform.position;
         if (Time.timeScale == 0) return;
-        if (!last_button && OVRInput.Get(OVRInput.Button.Two)) {
+        if (!last_button && OVRInput.Get( GameManager.Instance.righthand?OVRInput.Button.Two:OVRInput.Button.Four )) {
             SwitchWeapon(current+1);
             last_button = true;
         }
-        else if (!last_button && OVRInput.Get(OVRInput.Button.One)) {
+        else if (!last_button && OVRInput.Get( GameManager.Instance.righthand?OVRInput.Button.One:OVRInput.Button.Three )) {
             SwitchWeapon(current-1);
             last_button = true;
         }
@@ -41,6 +41,6 @@ public class WeaponControllerOQ : ControllerParent {
         else {
             wep.Manipulate(transform.InverseTransformPoint(p2),r2,transform.InverseTransformPoint(p1),r1);
         }
-        wep.action = canAction && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger)>0;
+        wep.action = canAction && OVRInput.Get( GameManager.Instance.righthand?OVRInput.Axis1D.SecondaryIndexTrigger:OVRInput.Axis1D.PrimaryIndexTrigger )>0;
     }
 }
