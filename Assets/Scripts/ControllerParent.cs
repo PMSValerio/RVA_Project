@@ -134,6 +134,7 @@ public class ControllerParent : MonoBehaviour {
 
     private void AcquiredWeapon(int index) {
         GameManager.Instance.Overlay.SetWeaponAcquired(weapons[index].GetComponent<Weapon>().weaponName);
+        weaponsHUD[index].transform.Find("hudSprite-2").GetChild(0).gameObject.SetActive(true);
     }
 
     private void AcquiredAmmo(int weapon, int ammo) {
