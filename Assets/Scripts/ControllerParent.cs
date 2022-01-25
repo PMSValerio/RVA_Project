@@ -40,8 +40,8 @@ public class ControllerParent : MonoBehaviour {
     }
     
     protected void Update() {
-        if (ableToPause && Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted() && !GameManager.Instance.Overlay.AnyImportantMessageOn()) {
-        //if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted()) {
+        //if (ableToPause && Input.GetKeyDown(KeyCode.P) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted() && !GameManager.Instance.Overlay.AnyImportantMessageOn()) {
+        if (OVRInput.GetDown(OVRInput.Button.Start) && !GameManager.Instance.GetIsGamePaused() && GameManager.Instance.GetHasGameStarted() && !GameManager.Instance.Overlay.AnyImportantMessageOn()) {
             ableToPause = false;
             GameManager.Instance.Overlay.ToggleOnPause();
             GameManager.Instance.Overlay.ToggleOffLevelMessages();

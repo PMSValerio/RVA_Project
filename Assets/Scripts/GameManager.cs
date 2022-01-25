@@ -301,6 +301,7 @@ public class GameManager : MonoBehaviour {
         LevelSettings();
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void LevelSettings() {

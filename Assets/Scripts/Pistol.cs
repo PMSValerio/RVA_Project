@@ -36,8 +36,9 @@ public class Pistol : Weapon {
         if (rayHit && (hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Obstacle") || hit.collider.gameObject.CompareTag("Goal"))) {
             pointerEnd = transform.InverseTransformPoint(hit.point);
         }
-        if (ammo > 0 && action && !lastAction) {
-			bool flag = false;
+        
+        if ((ammo > 0 || !GameManager.Instance.GetHasGameStarted() || GameManager.Instance.GetIsGamePaused()) && action && !lastAction) {
+            bool flag = false;
             if (!GameManager.Instance.GetIsGamePaused()) {
                 if (!GameManager.Instance.GetHasGameStarted()) {
                     flag = true;

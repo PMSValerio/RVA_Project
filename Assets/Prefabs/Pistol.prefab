@@ -541,7 +541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammoMax: 0
   ammo: 0
-  acquired: 0
+  acquired: 1
   action: 0
   selected: 0
   weaponName: Pistol
